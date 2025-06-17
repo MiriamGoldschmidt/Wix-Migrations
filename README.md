@@ -98,3 +98,36 @@ Located in `EventsMigrationFinal/`:
 - Update mapping files before running migrations
 - Verify uploaded images in Wix media library
 - Check migrated content in Wix after each migration
+
+## Git LFS Setup
+
+This repository uses Git Large File Storage (Git LFS) for handling large JavaScript files. To work with this repository:
+
+1. **Install Git LFS**:
+   ```powershell
+   # Download from https://git-lfs.github.com/
+   # After installation, run:
+   git lfs install
+   ```
+
+2. **Clone the Repository**:
+   ```powershell
+   git clone https://github.com/MiriamGoldschmidt/Wix-Migrations.git
+   cd Wix-Migrations
+   git lfs pull
+   ```
+
+3. **Large Files Location**:
+   The following JavaScript files are stored using Git LFS:
+   - `BlogPostsMigration/JS_FILES/*.js`
+   - `EventsMigrationFinal/JS_FILES/*.js`
+   - `BlogAndGroupPostsCommentsMigration/JS_FILES/*.js`
+   - `GroupPostsMigrationFinal/JS_FILES/*.js`
+   - `MembersMigrationFinal/JS_FILES/*.js`
+
+4. **Handling 404 Errors**:
+   If you encounter 404 errors when accessing JS files:
+   - Ensure Git LFS is installed
+   - Run `git lfs pull` to download all LFS objects
+   - Check file paths match the repository structure
+   - Verify your Git credentials have access to LFS storage
