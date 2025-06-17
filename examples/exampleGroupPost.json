@@ -1,0 +1,8 @@
+{
+    "oldId": "00000000-0000-0000-0000-000000208522",
+    "groupId": "e2e65cb5-e86f-49a2-b39c-1f092f3801ba",
+    "content": "{\"blocks\":[{\"key\":\"y25tuq\",\"text\":\"כתבה חדשה: מסע חוצה ישראל לנשים בלבד, מסעות מיוחדים בפסח ועוד טיולים ומסעות בארץ ובעולם\",\"type\":\"header-two\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{\"textAlignment\":\"right\"}},{\"type\":\"unstyled\",\"text\":\"הדיוור השבועי של אתר השטח: מסע חוצה ישראל לנשים בלבד, מסע ג'יפים לגיאורגיה, מסע אופנועים להודו ועוד טיולים ומסעות מיוחדים בארץ ובעולם\",\"key\":\"rxxpuf\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{\"textAlignment\":\"right\"}},{\"type\":\"unstyled\",\"text\":\"לכתבה - מסע חוצה ישראל לנשים בלבד, מסעות מיוחדים בפסח ועוד טיולים ומסעות בארץ ובעולם\",\"key\":\"iwerz\",\"depth\":0,\"inlineStyleRanges\":[{\"offset\":0,\"length\":84,\"style\":\"UNDERLINE\"}],\"entityRanges\":[{\"offset\":0,\"length\":84,\"key\":0}],\"data\":{\"textAlignment\":\"right\"}}],\"entityMap\":{\"0\":{\"type\":\"LINK\",\"mutability\":\"MUTABLE\",\"data\":{\"url\":\"https://www.4x4.co.il/article/17001\",\"target\":\"_blank\",\"rel\":\"\"}}},\"documentStyle\":{},\"VERSION\":\"9.14.3\",\"ID\":\"c5cfb5b8-6465-46bc-a9f1-763b4a4b2676\"}",
+    "createdAt": "2025-03-19 13:11:01",
+    "createdBy": "49c39797-7a7a-4e6a-8c56-44eb97248a58",
+    "IDENTITI": 1
+}

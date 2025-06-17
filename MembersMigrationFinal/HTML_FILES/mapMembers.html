@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<!-- This code maps the new members so that they can be added correctly to the "allUsersMaped.js" file -->
+<!--Paste the result in the "allUsersMapped" array in the file "allUsersMaped.js"-->
+<!-- <script src="../JS FILES/newWixMembers.js"></script> -->
+<script src="../JS FILES/newMembers.js"></script>
+
+<body>
+    <script>
+        // Create a Map containing only Oldid and Newid
+        // let allUsersMapped = new Map(
+        //     newMembers.map(member => [member.Oldid, member.Newid])
+        // );
+let allUsersMapped = newMembers.filter(member => member.send_news === 1).map(e=>e.email);
+console.log(allUsersMapped);
+    </script>
+</body>
+
+</html>

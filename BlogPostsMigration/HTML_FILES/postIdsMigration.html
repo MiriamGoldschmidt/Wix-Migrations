@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!--This is a file that returns all the posts that failed with the entire data.
+    download all the failed posts, replace it in the "failedPosts.js" file and then run this script, you will receive all the posts that failed with all their data.-->
+    <script src="../JS FILES/failedPosts.js"></script>
+    <!-- <script src="../JS FILES/postsSince17Until24Final.js"></script> -->
+     <!-- <script src="../JS FILES/articlesSince24.js"></script> -->
+      <script src="../JS FILES/articlesBefore2017-Final.js"></script>
+
+    <script>
+        // Extract the ids from the posts array
+        let postIds = posts.map(post => post.Id);
+        console.log("postIds:", postIds);
+        let filteredPosts = allOldPosts.filter(oldPost => postIds.includes(oldPost.id));
+        console.log("filteredPosts:", filteredPosts);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <script src="../JS FILES/eventsFromMigration26-03.js"></script>
+    <script>
+        let urls = oldEvents
+            .filter(event => event.image !== null)
+            .map(event => ({ url: event.image }));
+
+        function extractImageURLs() {
+            const imageURLs = [];
+            for (let event of oldEvents) {
+                const imgTags = event.content?.match(/<img[^>]+src=["']([^"']+)["']/g);
+                if (imgTags) {
+                    for (let tag of imgTags) {
+                        const srcMatch = tag.match(/src=["']([^"']+)["']/);
+                        if (srcMatch && srcMatch[1]) {
+                            imageURLs.push({ "url": srcMatch[1] });
+                        }
+                    }
+                }
+            }
+            return imageURLs;
+        }
+        // function extractLinkedImageURLs() {
+        //     const imageURLs = [];
+        //     for (let event of oldEvents) {
+        //         if (!event.content) continue;
+
+        //         // Match <a> tags that contain an <img> inside
+        //         const linkedImages = event.content.match(/<a[^>]*>\s*<img[^>]+src=["']([^"']+)["']/g);
+        //         if (linkedImages) {
+        //             for (let tag of linkedImages) {
+        //                 // Extract the image URL from the <img> tag inside the <a>
+        //                 const srcMatch = tag.match(/src=["']([^"']+)["']/);
+        //                 if (srcMatch && srcMatch[1]) {
+        //                     imageURLs.push({ "url": srcMatch[1] });
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     return imageURLs;
+        // }
+        console.log(urls);
+        const images = extractImageURLs();
+        // const images=extractLinkedImageURLs()
+        console.log("Valid images:", images);
+    </script>
+</body>
+
+</html>

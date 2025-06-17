@@ -1,0 +1,962 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<script src="../JS FILES/wixEventsImagesMap.js"></script>
+	<!--
+	קובץ זה מכיל את התמונות שנמצאות בתוך ה-CONTENT של ה-EVENT.
+	אלו תמונות שנמצאות במדיה של Wix.
+	עדכון הקובץ:
+	כדי לעדכן את הקובץ הזה, יש לבצע מיגרציה נוספת שנכתבה בקובץ EXTRACTIMAGES.
+	בקובץ זה מתבצע חילוץ של התמונות. לאחר שמקבלים את מערך התמונות, יש להריץ קוד של "uploadImagesToGallery" (באתר 4X4 יש קובץ בשם UPLOADIMAGES שמבצע זאת).
+	את התמונות שהועלו יש להוריד מהטבלה wixEventsImagesMap שמתקבלת, ולעדכן את הטבלה הזו בקובץ.
+	***********************************************************************
+	A file that contains the images within the CONTENT of the EVENT.
+	These are images located in Wix's media library.
+	To update this file, an additional migration is required, which is written in the EXTRACTIMAGES file.
+	There, the images are extracted. After obtaining the array of images, you need to run the "uploadImagesToGallery" code (there is a file named UPLOADIMAGES on the 4X4 site that handles this).
+	Once the images are uploaded, download the wixEventsImagesMap table that is generated and update this table in the file.
+	-->
+	<script src="../JS FILES/eventsFromMigration26-03.js"></script><!--//the events to migrate-->
+</head>
+
+<body>
+	<script>
+		const defaultUrlImage = 'https://static.wixstatic.com/media/005c54_35a4ca47380a41049936a5530c1581fc~mv2.jpg';
+		let allMappedPosts = [];
+		let allNotExistImages = [];
+		let onlyImagesNotFound = [];
+		oldEvents.forEach(post => {
+			if (!post.content) {
+				return;
+			}
+			post.content = post.content.replace(/<[^>]*>\s*(<iframe\b[^>]*>.*?<\/iframe>)\s*<\/[^>]*>(?:<\/[^>]*>)*/g, '$1');//removes wrapping tags around an iframe
+			post.content = post.content.replace(/<(?:[^>]+)>\s*<(?:[^>]+)>\s*(<a\b[^>]*>.*?<\/a>)\s*<\/(?:[^>]+)>\s*<\/(?:[^>]+)>/g, '$1');
+			post.content = post.content.replace(/<span\b[^>]*>/gi, '');
+			post.content = post.content.replace(/<\/span>/gi, '');// Remove </span> tags
+			function removeOuterDiv(content) {
+				// Create a temporary container element
+				const container = document.createElement('div');
+				container.innerHTML = content;
+				// Check if the container has a single child and it's a <div>
+				if (container.children.length === 1 && container.firstChild.tagName === 'DIV') {
+					// Extract the content inside the <div>
+					content = container.firstChild.innerHTML;
+				}
+				return content;
+			}
+			if (post.content.trim().startsWith('<div>')) {
+				const cleanedContent = removeOuterDiv(post.content);
+			} else if (post.content.trim().startsWith('<div')) {
+				// במקרה כזה יש להסיר את התגית הפותחת והסוגרת מה-content באופן ידני		
+				// In this case, the opening and closing tags should be manually removed from the content.	
+			}
+			const parser = new DOMParser();
+			post.content = processContent(post.content);
+			let doc = parser.parseFromString(post.content, 'text/html');
+			const imgTags = doc.querySelectorAll('img');
+			const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|tiff|tif|webp|svg|cr2|nef|arw)$/i;
+			imgTags.forEach(imgTag => {
+				if (imgTag.src) {
+					let newSrc = wixImagesMap.find((i) => { return i.originalUrl === imgTag.src });
+					if (newSrc != undefined) {
+						imgTag.src = `https://static.wixstatic.com/media/${newSrc.externalUrl}`;
+					} else {
+						allNotExistImages.push(imgTag.src);
+						if (imageExtensions.test(imgTag.src)) {
+							if (!(imgTag.src.includes(`static.wixstatic.com/media`))) {
+								onlyImagesNotFound.push(imgTag.src);
+								imgTag.src = defaultUrlImage;
+							}
+						}
+					}
+				}
+			})
+			post.title = processContent(post.title)
+			const newHtmlString = doc.documentElement.outerHTML;
+			post.content = newHtmlString;
+			allMappedPosts.push(post);
+		});
+		let num = 0;
+		let arrTags = ['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'IMG', 'TABLE', 'DIV', 'SPAN', 'IFRAME', 'STRONG', 'EM', 'TEXT'];
+		let finalRichContent = {
+			"nodes": [],
+			"metadata": {
+				"version": 1,
+				"createdTimestamp": "2023-12-07T10:02:02.347Z",
+				"updatedTimestamp": "2023-12-07T10:02:02.347Z",
+				"id": "4904df70-ae35-48a7-bd0e-06f254dc733c"
+			},
+			"documentStyle": {}
+		}
+		let arrObj = [];
+		for (let i = 0; i < allMappedPosts.length; i++) {
+			let resultContent = `<div>'${allMappedPosts[i].content}'</div>`.replace(/^<html><head><\/head><body>|<\/body><\/html>$/g, '');
+			resultContent = `<div>${resultContent.replace('\n', '').replace('\t', '')}</div>`;
+			let obj = buildObjectFromHTML(resultContent);
+			let copyRichh = finalRichContent;
+			let copyRich = convertToNodes(resultContent, copyRichh, allMappedPosts[i].id);
+			allMappedPosts[i].richContent = copyRich;
+			delete allMappedPosts[i].content;
+			arrObj.push({ id: allMappedPosts[i].id, richContent: allMappedPosts[i].richContent })
+		}
+		console.log('====arrObj', arrObj);
+		function convertToNodes(htmlString, richContent, id) {
+			let newRich = JSON.parse(JSON.stringify(richContent));
+			let obj = buildObjectFromHTML(htmlString);
+			obj.allElements.forEach(element => {
+				const newNode = createNode(element, '', '');
+				if (newNode) {
+					newRich.nodes.push(newNode);
+				}
+			});
+			newRich.nodes = restructureNodes2(newRich.nodes);
+			newRich.nodes = fixTableNodes(newRich.nodes);
+			newRich.nodes = newRich.nodes[0]?.nodes[0]?.nodes || [];
+			newRich.nodes = wrapTextNodesInParagraph(newRich.nodes);
+			newRich.nodes = fixGallery(newRich.nodes);
+			newRich.nodes = fixHtml(newRich.nodes);
+			newRich.nodes = fixImageInHeading(newRich.nodes);
+			newRich.nodes = fixImageInParagraph(newRich.nodes);
+			newRich.nodes = wrapTextNodesInParagraph(newRich.nodes);
+			newRich.nodes = fixImagesToGallery(newRich.nodes, id);
+			return newRich;
+		}
+		function createNode(element, fatherType, fatherStyle, inlineDecorations = []) {
+			if (element.type == "DIV" && element.elements && element.elements.length == 1 && element.elements[0].type === "TABLE") {
+				element = element.elements[0];
+			}
+			let nodeToReturn = {}
+			if (element.type == "OL") {
+			}
+			let type = getWixNodeType(element.type);
+			if (type === 'ORDERED_LIST') {
+				return {
+					type: type,
+					id: generateUniqueId(),
+					nodes: element.elements.map(singleElement => createNode(singleElement, type, element.style))
+				};
+			}
+			if (type === 'LIST_ITEM') {
+				return {
+					type: 'LIST_ITEM',
+					id: generateUniqueId(),
+					nodes: element.elements.map(singleElement => createNode(singleElement, type, element.style))
+				};
+			}
+			if (type == 'GALLERY') {
+				let items = getGalleryItems(element);
+				return {
+					"type": "GALLERY",
+					"id": generateUniqueId(),
+					"nodes": [],
+					"galleryData": {
+						"containerData": {
+							"width": {
+								"size": "CONTENT"
+							},
+							"alignment": "CENTER",
+							"spoiler": {
+								"enabled": false
+							},
+							"textWrap": true
+						},
+						"items": items,
+						"options": {
+							"layout": {
+								"horizontalScroll": false,
+								"numberOfColumns": 3,
+								'orientation': "COLUMNS",
+								"type": "GRID"
+							},
+							"item": {
+								"crop": "FILL",
+								"ratio": 1.7777777777777777
+							},
+							"thumbnails": {
+								"placement": "NONE"
+							}
+						},
+					}
+				}
+			}
+			if (element.type == 'A') {
+				const hasImageType = element.elements.some(subObj => subObj.type === "IMG");
+				const imageElement = element.elements[0];
+				if (!hasImageType) {
+					let type = element.style.split(";").some(singleStyle => singleStyle === 'text-decoration:underline');
+					let type2 = element.style.split(";").some(singleStyle => singleStyle === 'text-decoration: underline');
+					let decorations = [
+						{
+							"type": "LINK", "linkData": { "link": { "url": element.attributes.href, "target": "BLANK", "rel": { "noreferrer": true } } }
+						}];
+					if (type || type2) {
+						decorations.push({ type: 'UNDERLINE', underlineData: true })
+					}
+					let text = linkRecorcia(element, decorations);
+					return {
+						type: "TEXT",
+						id: generateUniqueId(),
+						nodes: [],
+						textData: {
+							text: text + ' ' || '',
+							decorations
+						}
+					}
+				}
+				else {
+					return {
+						type: "IMAGE",
+						id: generateUniqueId(),
+						nodes: [],
+						imageData: {
+							containerData:
+								{ width: { size: "ORIGINAL" }, alignment: "CENTER", textWrap: true },
+							image: {
+								src: { id: imageElement.attributes.src?.substring(imageElement.attributes.src.lastIndexOf("media") + 6 || '') },
+								width: imageElement.attributes.width?.toString() || "600", height: imageElement.attributes.height?.toString() || "400"
+							}
+						}
+					}
+				}
+			}
+			if (element.type === "BR") {
+				return {
+					type: 'TEXT',
+					id: generateUniqueId(),
+					nodes: [],
+					textData: {
+						text: '\n',
+						decorations: []
+					}
+				};
+
+			}
+			if (element.elements && element.elements.length > 0 && element.elements[0].type === "TBODY") {// Check if the object contains a TBODY element
+				element.elements = element.elements[0].elements;// Replace the TBODY element with its children (TR elements)
+			}
+			if (element.type == 'TEXT') {
+				let decorations = getDecorationsByType(fatherType);
+				decorations.push(...buildDecorationArr(fatherStyle.split(";")))
+				inlineDecorations.forEach(inlineElement => {
+					decorations.push(...inlineElement);
+				});
+				inlineDecorations = [];
+				return {
+					type: element.type,
+					id: generateUniqueId(),
+					nodes: [],
+					textData: {
+						text: element.content + ' ',
+						decorations: decorations
+					}
+				};
+			}
+			nodeToReturn.type = type;
+			nodeToReturn.id = generateUniqueId();
+			nodeToReturn.nodes = [];
+			if (type == "HEADING" && element.elements && element.elements.length === 0) {
+				return null;
+			}
+			if (type === "PARAGRAPH" && element.elements && element.elements.length === 0) {
+				return null;
+			}
+			const entries = Object.entries(getNodeData(element, type, element.type, element.attributes, element.style.split(";")));
+			for (const [key, value] of entries) {
+				nodeToReturn[key] = value;
+			}
+			element.elements.forEach(singleElement => {
+
+				if (singleElement.type === "TD") {
+					const newNode = createNode(singleElement, element.type, element.style)
+					if (newNode) {
+						nodeToReturn.nodes.push(newNode);
+					}
+				}
+				else {
+					let newInlineDecorations = [...inlineDecorations]
+					if (Array.isArray(singleElement.otherTypes) && singleElement.otherTypes.length > 0 && singleElement.type !== "IFRAME") {
+						singleElement.otherTypes.forEach((inlineType) => {
+							newInlineDecorations.push(getDecorationsByType(inlineType))
+						})
+					}
+					else {
+						singleElement.otherTypes = "";
+					}
+					const newNode = createNode(singleElement, element.type, element.style, newInlineDecorations);
+					if (singleElement.type === "IFRAME") {
+					}
+					if (newNode) {
+						nodeToReturn.nodes.push(newNode);
+					}
+				}
+				if (type == 'TABLE_CELL') {
+					nodeToReturn.nodes[nodeToReturn.nodes.length - 1] = addNodeWrapper(nodeToReturn.nodes[nodeToReturn.nodes.length - 1]);
+				}
+			});
+			function linkRecorcia(element, decoratio = []) {
+				if (element.type != 'TEXT' && element.elements.length == 0) {
+					return '';
+				}
+				if (element.type == 'TEXT') {
+					return element.content;
+				}
+				let decorationToAdd = getDecorationsByType(element.type);
+				decorationToAdd.push(...buildDecorationArr(element.style.split(';')));
+				decoratio.push(...decorationToAdd);
+				return linkRecorcia(element.elements[0], decoratio);
+			}
+			return nodeToReturn;
+		}
+		function fixImagesToGallery(nodes, id) {
+			let newNodess = [];
+			let imageNodes = [];
+			let startIndex = 0;
+			for (let i = 0; i < nodes.length; i++) {
+				if (nodes[i].type === 'IMAGE') {
+					imageNodes.push(nodes[i]);
+				} else {
+					if (imageNodes.length > 2) {
+						newNodess.push(createGallery(imageNodes));
+						newNodess.push(nodes[i]);
+						imageNodes = [];
+					}
+					else {
+						if (imageNodes.length == 1) {
+							newNodess.push(imageNodes[0]);
+						}
+						if (imageNodes.length == 2) {
+							newNodess.push(imageNodes[0]);
+							newNodess.push(imageNodes[1]);
+
+						}
+						newNodess.push(nodes[i]);
+						imageNodes = [];
+					}
+				}
+			}
+			if (imageNodes.length > 0) {
+				if (imageNodes.length > 2) {
+					newNodess.push(createGallery(imageNodes));
+				}
+				else if (imageNodes.length == 1) {
+					newNodess.push(imageNodes[0]);
+				}
+				else {
+					newNodess.push(imageNodes[0]);
+					newNodess.push(imageNodes[1]);
+				}
+			}
+			return newNodess;
+		}
+		function createGallery(imageNodes) {
+			let arrItems = [];
+			imageNodes.forEach(node => {
+				arrItems.push({
+					"image": {
+						"media": {
+							"src": {
+								"url": node.imageData.image.src.id
+							},
+							"width": 600,
+							"height": 400
+						},
+					}
+				})
+			});
+			return {
+				"type": "GALLERY",
+				"id": generateUniqueId(),
+				"nodes": [],
+				"galleryData": {
+					"containerData": {
+						"width": {
+							"size": "CONTENT"
+						},
+						"alignment": "CENTER",
+						"spoiler": {
+							"enabled": false
+						},
+						"textWrap": true
+					},
+					"items": arrItems,
+					"options": {
+						"layout": {
+							"horizontalScroll": false,
+							"numberOfColumns": 3,
+							'orientation': "COLUMNS",
+							"type": "GRID"
+						},
+						"item": {
+							"crop": "FILL",
+							"ratio": 1.7777777777777777
+						},
+						"thumbnails": {
+							"placement": "NONE"
+						}
+					},
+				}
+			}
+		}
+		function fixImageInHeading(nodes) {
+			let newNodess = [];
+			let flag = 0;
+			nodes.forEach(node => {
+				if (node.type == 'HEADING') {
+					node.nodes.forEach((single, index) => {
+						if (single.type == 'IMAGE') {
+							flag = 1;
+							let fix = node;
+							fix.nodes.splice(index, index + 1);
+							newNodess.push(fix);
+							newNodess.push(single);
+						}
+					});
+					if (flag == 0) {
+						newNodess.push(node);
+					}
+					else {
+						flag = 0;
+					}
+				}
+				else {
+					newNodess.push(node);
+				}
+			});
+			return newNodess;
+		}
+		function fixImageInParagraph(nodes) {
+			let result = [];
+			for (let i = 0; i < nodes.length; i++) {
+				const node = nodes[i];
+				if (node.type === 'PARAGRAPH') {
+					const imageNodes = node.nodes.filter(n => n.type === 'IMAGE');
+					if (imageNodes.length > 0) {
+						const beforeImageNodes = node.nodes.slice(0, node.nodes.indexOf(imageNodes[0]));
+						const afterImageNodes = node.nodes.slice(node.nodes.indexOf(imageNodes[0]) + 1);
+						if (beforeImageNodes.length > 0) {
+							result.push(addParagraph(beforeImageNodes));
+						}
+						result.push(imageNodes[0]);
+						if (afterImageNodes.length > 0) {
+							const remainingNodes = fixImageInParagraph(afterImageNodes);
+							result = result.concat(remainingNodes);
+						}
+					} else {
+						result.push(node);
+					}
+				} else {
+					result.push(node);
+				}
+			}
+			return result;
+		}
+		function fixGallery(nodes) {
+			let newNodess = [];
+			let flag = 0;
+			nodes.forEach(node => {
+				if (node.type == 'PARAGRAPH') {
+					if (node.nodes.length > 0) {
+						node.nodes.forEach((single, index) => {
+							if (single.type == 'GALLERY') {
+								flag = 1;
+								newNodess.push(addParagraph(node.nodes.slice(0, index)));
+								newNodess.push(single);
+								newNodess.push(addParagraph(node.nodes.slice(index + 1)))
+							}
+						});
+					}
+					if (flag == 0) {
+						newNodess.push(node);
+					}
+					else {
+						flag = 0;
+					}
+				}
+				else {
+					newNodess.push(node);
+				}
+			});
+			return newNodess;
+		}
+		function addParagraph(arr) {
+			return {
+				"type": "PARAGRAPH",
+				"id": generateUniqueId(),
+				"nodes": arr,
+				"paragraphData": {
+					"textStyle": {
+						"textAlignment": "RIGHT"
+					},
+					"indentation": 0
+				}
+			}
+		}
+		function fixHtml(nodes) {
+			let newNodess = []; // Stores the corrected list of nodes
+			nodes.forEach(node => {
+				if (node && node.type == 'HEADING') { // Check if the node is a HEADING
+					let newHeading = { ...node, nodes: [] }; // Copy the HEADING node but reset its child nodes
+					let htmlNodes = []; // Store HTML nodes found inside
+					node.nodes.forEach(single => {
+						if (single.type == 'HTML') {
+							htmlNodes.push(single); // Collect HTML nodes
+						} else {
+							newHeading.nodes.push(single); // Add non-HTML nodes to the new HEADING
+						}
+					});
+					newNodess.push(...htmlNodes);
+					if (newHeading.nodes.length > 0) {
+						newNodess.push(newHeading);
+					}
+				} else {
+					newNodess.push(node); // If not a HEADING, add the node unchanged
+				}
+			});
+
+			return newNodess; // Return the corrected node list
+		}
+		function restructureNodes2(nodes) {
+			let rearrangedNodes = [];
+			for (let i = 0; i < nodes.length; i++) {
+				const node = nodes[i];
+				if (node && node.nodes && node.nodes.length > 0) {
+					node.nodes = restructureNodes2(node.nodes);
+				}
+				if (node && node.type === 'TEXT' && node.nodes) {
+					const textNodes = [];
+					for (let j = 0; j < node.nodes.length; j++) {
+						const childNode = node.nodes[j];
+						if (childNode.type === 'TEXT') {
+							textNodes.push(childNode);
+						}
+					}
+					node.nodes = node.nodes.filter(child => child.type !== 'TEXT');
+					if (node.textData) { rearrangedNodes.push(node); }
+					rearrangedNodes.push(...textNodes);
+				} else {
+					rearrangedNodes.push(node);
+				}
+			}
+			return rearrangedNodes;
+		}
+		function fixTableNodes(nodes) {
+			nodes[0].nodes.forEach(nodee => {
+				if (nodee.type === "TABLE") {
+					nodee = fixNode(nodee);
+					return;
+				}
+				nodee.nodes.forEach(node => {
+					if (node.type === "TABLE") {
+						node = fixNode(node);
+					}
+				});
+			});
+			return nodes;
+		}
+		function wrapTextNodesInParagraph(nodes) {
+			let textNodes = [];
+			let paragraphs = [];
+			for (let i = 0; i < nodes.length; i++) {
+				if (nodes[i].type === 'TEXT') {
+					textNodes.push(nodes[i]);
+				} else {
+					if (textNodes.length > 0) {
+						const paragraphNode = addNodesWrapper(textNodes);
+						paragraphs.push(paragraphNode);
+						textNodes = [];
+					}
+					paragraphs.push(nodes[i]);
+				}
+			}
+
+			if (textNodes.length > 0) {
+				const paragraphNode = addNodesWrapper(textNodes);
+				paragraphs.push(paragraphNode);
+			}
+			return paragraphs;
+		}
+
+		function fixTextNodes(nodes) {
+			let newNodes = [];
+			nodes.forEach(node => {
+				if (node.type == 'TEXT') {
+					newNodes.push(addNodeWrapper(node));
+				}
+				else {
+					newNodes.push(node);
+				}
+			});
+			return newNodes;
+		}
+		function fixNode(node) {
+			const maxCellCount = getMaxTableCellCount(node.nodes);
+			node.nodes.forEach(rowNode => {
+				if (rowNode.type === "TABLE_ROW") {
+					const currentCount = rowNode.nodes.length;
+					const diff = maxCellCount - currentCount;
+					if (diff > 0) {
+						for (let i = 0; i < diff; i++) {
+							rowNode.nodes.push(
+								{
+									"type": "TABLE_CELL",
+									"id": generateUniqueId(),
+									"nodes": [{
+										"type": "PARAGRAPH",
+										"id": generateUniqueId(),
+										"nodes": [{
+											"type": "TEXT",
+											"id": "9pmya614j",
+											"nodes": [],
+											"textData": {
+												"text": "",
+												"decorations": []
+											}
+										}],
+										"paragraphData": {
+											"textStyle": {
+												"textAlignment": "AUTO"
+											}
+										}
+									}],
+									"tableCellData": {}
+								});
+						}
+					}
+				}
+			});
+			return node;
+		}
+		// Function to get the maximum TABLE_CELL count within a TABLE_ROW
+		function getMaxTableCellCount(rows) {
+			let maxCount = 0;
+			rows.forEach(row => {
+				if (row.type === "TABLE_ROW") {
+					const cellCount = row.nodes.length;
+					if (cellCount > maxCount) {
+						maxCount = cellCount;
+					}
+				}
+			});
+
+			return maxCount;
+		}
+
+		let allBefore = finalRichContent.nodes;
+		function buildObjectFromHTML(html) {
+			const parser = new DOMParser();
+			let doc = parser.parseFromString(html, 'text/html');
+			doc = removeElements(doc);
+			const tbody = doc.querySelector('tbody');
+			const table = doc.querySelector('table');
+			if (tbody) {
+				while (tbody.firstChild) {
+					table.appendChild(tbody.firstChild);
+				}
+				tbody.remove();
+			}
+			function traverseDOM(node) {
+				if (!node) return null;
+				let types = [];
+				let element;
+				if (node.nodeType === 3) { // Text node
+					element = {
+						type: "TEXT",
+						content: node.nodeValue.trim(), // Store text content
+						style: "",
+						attributes: [],
+						elements: []
+					};
+				} else if (checkElement(node)) { // Custom condition for gallery
+					element = {
+						type: 'GALLERY',
+						style: '',
+						attributes: [],
+						elements: []
+					};
+				} else { // Regular element node
+					element = {
+						type: node.nodeName,
+						style: node.getAttribute ? node.getAttribute('style') || '' : '',
+						attributes: node.getAttribute ? getAttributes(node) : [],
+						elements: []
+					};
+				}
+				for (let i = 0; i < node.childNodes.length; i++) {
+					const childNode = node.childNodes[i];
+					if (childNode.nodeType === Node.TEXT_NODE) {
+						const text = childNode.textContent.trim();
+						if (text.length > 0) {
+							if (node.nodeName == 'A' && node.childNodes.length >= 2) {
+							}
+							else {
+								element.elements.push({
+									type: 'TEXT',
+									content: text
+								});
+							}
+						}
+					}
+					else if (childNode.nodeType === Node.ELEMENT_NODE && childNode.nodeName !== 'STYLE') {
+						if (element.type == "B" || element.type == "U" || element.type == "EM" || element.type == "STRONG") {
+							if (!types.includes(element.type))
+								types.push(element.type)
+						}
+						const childElement = traverseDOM(childNode);
+						if (types)
+							childElement.otherTypes = types;
+						element.elements.push(childElement);
+					}
+				}
+
+				return element;
+			}
+			function checkElement(node) {
+				let flag = 0;
+				if (node.nodeName === 'P' && node.classList.contains('article_paragraph_gallery')) {
+					const children = node.querySelectorAll('a');
+					if (children.length >= 3) {
+						children.forEach(a => {
+							if (!a.classList.contains('image-popup-no-margins')) {
+								flag = 1;
+							}
+						});
+						if (flag == 0) {
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+
+			function getAttributes(node) {
+				const attributes = {};
+				for (let i = 0; i < node.attributes.length; i++) {
+					const attrib = node.attributes[i];
+					attributes[attrib.name] = attrib.value;
+				}
+				return attributes;
+			}
+
+			const topLevelElement = doc.body.firstChild;
+			return {
+				allElements: [traverseDOM(topLevelElement)]
+			};
+		}
+		function getNodeData(element, type, originalType, attributes, style) {
+			let data = {}
+			switch (type) {
+				case 'PARAGRAPH':
+					data.paragraphData = { textStyle: { textAlignment: 'RIGHT' } };
+					break;
+				case 'HEADING':
+					data.headingData = {
+						level: parseInt(originalType.substring(1)), textStyle: {
+							textAlignment: "RIGHT"
+						}
+					};
+					break;
+				case 'HTML':
+					data.htmlData = { containerData: { width: { custom: attributes.width?.toString() || "600" }, alignment: "CENTER", height: { custom: attributes.height?.toString() || "400" }, textWrap: true }, url: attributes.src, source: "HTML" };
+					break;
+				case 'IMAGE':
+					let foundImage = wixImagesMap.find((i) => { return i.originalUrl === attributes.src });
+					let image = foundImage ? `${foundImage.externalUrl}` : null;
+					data.imageData = { containerData: { width: { size: "CONTENT" }, alignment: "CENTER", textWrap: true }, image: { src: { id: image ? image : attributes.src }, width: attributes.width?.toString() || "600", height: attributes.height?.toString() || "400", displayMode: "fit", fitMode: "fit" }, alt: "image alt", width: attributes.width?.toString() || "1200", height: attributes.height?.toString() || "800", displayMode: "fit", fitMode: "fit" };
+					break;
+				case 'TABLE':
+					data.tableData = {};
+					break;
+				case 'TABLE_CELL':
+					data.tableCellData = {};
+					break;
+				default:
+					break;
+			}
+			return data;
+		}
+		function getDecorationsByType(type) {
+			const decorationMap = {
+				'STRONG': { type: 'BOLD', fontWeightValue: 700 },
+				'B': { type: 'BOLD', fontWeightValue: 700 },
+				'U': { type: 'UNDERLINE', underlineData: true },
+				'EM': { type: 'ITALIC', italicData: true }
+			};
+			return decorationMap[type] ? [decorationMap[type]] : [];
+		}
+		function buildDecorationArr(styleArr) {
+			let decoration = [];
+			styleArr.forEach((style) => {
+				if (style == 'font-weight:bold' || style == 'font-weight:700') {
+					decoration.push({
+						fontWeightValue: 700,
+						type: 'BOLD'
+					});
+				}
+				if (style == "text-decoration:underline") {
+					decoration.push({
+						type: 'UNDERLINE',
+						underlineData: true
+					});
+				}
+				if (style == 'font-style:italic') {
+					decoration.push({
+						italicData: true,
+						type: 'ITALIC'
+					});
+				}
+				if (style.includes('color')) {
+					decoration.push({
+						type: "COLOR",
+						colorData: {
+							foreground: (style.match(/color:"([^"]*)"/) || [])[1] || ''
+						}
+					});
+				}
+				if (style.includes('href')) {
+					decoration.push({
+						linkData: {
+							link: {
+								target: 'BLANK',
+								url: style.substring(5)
+							}
+						},
+						type: 'LINK'
+					})
+				}
+			});
+			return decoration;
+		}
+		function generateUniqueId() {
+			return Math.random().toString(36).substr(2, 9);
+		}
+		function getWixNodeType(tagName) {
+			switch (tagName) {
+				case 'P': return 'PARAGRAPH';
+				case 'H1': return 'HEADING';
+				case 'H2': return 'HEADING';
+				case 'H3': return 'HEADING';
+				case 'H4': return 'HEADING';
+				case 'H5': return 'HEADING';
+				case 'H6': return 'HEADING';
+				case 'IMG': ; return 'IMAGE';
+				case 'TABLE': return 'TABLE';
+				case 'DIV': return 'PARAGRAPH';
+				case 'SPAN': return 'TEXT';
+				case 'IFRAME': return 'HTML'
+				case 'STRONG': return 'TEXT';
+				case 'B': return 'TEXT';
+				case 'U': return 'TEXT';
+				case 'EM': return 'TEXT';
+				case 'TEXT': return 'TEXT';
+				case 'A': return 'TEXT';
+				case 'TR': return 'TABLE_ROW';
+				case 'TH': return 'TABLE_CELL';
+				case 'TD': return 'TABLE_CELL';
+				case 'GALLERY': return 'GALLERY';
+				case 'BR': return 'PARAGRAPH';
+				case 'OL': return 'ORDERED_LIST';
+				case 'UL': return 'ORDERED_LIST';
+				case 'LI': return 'LIST_ITEM';
+				default: return 'TEXT';
+			}
+		}
+		function getGalleryItems(element) {
+			let arrItems = [];
+			element.elements.forEach(a => {
+				if (a.type == 'A') {
+					if (a.elements && a.elements[0] && a.elements[0].attributes && a.elements[0].attributes.src) {
+						arrItems.push({
+							"image": {
+								"media": {
+									"src": {
+										"url": a.elements[0].attributes.src.substring(a.elements[0].attributes.src.lastIndexOf("media") + 6)
+									},
+									"width": 1200,
+									"height": 800,
+									"displayMode": "fit",
+									"fitMode": "fit",
+								},
+							}
+						});
+					}
+				}
+			});
+			return arrItems;
+		}
+		function addNodeWrapper(node) {
+			const newNode = {
+				"type": "PARAGRAPH",
+				"id": generateUniqueId(),
+				"nodes": [
+					node
+				],
+				"paragraphData": {
+					"textStyle": {
+						"textAlignment": "RIGHT"
+					},
+					"indentation": 0
+				}
+			};
+			return newNode;
+		}
+		function addNodesWrapper(nodes) {
+			const newNode = {
+				"type": "PARAGRAPH",
+				"id": generateUniqueId(),
+				"nodes": nodes,
+				"paragraphData": {
+					"textStyle": {
+						"textAlignment": "RIGHT"
+					},
+					"indentation": 0
+				}
+			};
+			return newNode;
+		}
+		function removeDivurFromAllPosts(posts) {
+			posts.forEach(post => {
+				let content = `<div>${post.content}</div>`;
+				removeElements(content)
+			});
+		}
+		function removeElements(dom) {
+			let flag = 0
+			const containerElements = dom.querySelectorAll('.users_only_container, .form-inline.users_only_container');
+			containerElements.forEach(container => {
+				if (flag == 0) {
+					const forumItem = container.querySelector('.forum-item');
+					if (forumItem) {
+					}
+					const formInline = container.querySelector('.form-inline');
+					let selectStyle;
+					if (formInline) {
+						selectStyle = formInline.querySelector('.forum-item.select-style');
+					}
+					else {
+						selectStyle = container.querySelector('.forum-item.select-style');
+					}
+					if (forumItem && selectStyle) {
+						num++;
+						containerElements[0].parentNode.removeChild(containerElements[0]);
+						flag = 1;
+					}
+				}
+			});
+			return dom;
+		}
+		function processContent(content) {
+			const htmlEntities = {
+				'&quot;': '"',
+				'&amp;': '&',
+				'&lt;': '<',
+				'&gt;': '>',
+				'&apos;': "'",
+				'&nbsp;': ' '
+			};
+			return content.replace(/&quot;|&amp;|&lt;|&gt;|&apos;|&nbsp;/g, match => htmlEntities[match]);
+		}
+	</script>
+</body>
+
+</html>

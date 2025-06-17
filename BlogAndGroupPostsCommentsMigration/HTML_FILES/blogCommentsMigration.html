@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>convert comments</title>
+</head>
+
+<body>
+    <!--This file can be executed only after running the file commentsMapping which converts the content to richcontent-->
+    <script src="../JS FILES/allCommentsWithRichContent.js"></script><!--result of the migration commentsMapping-->
+    <script src="../JS Files/allUsersMaped.js"></script><!--Before running the migratio this file should be updated-->
+    <script>
+        function extractYear(dateString) {
+            const date = new Date(dateString);
+            return date.getFullYear();
+        }
+        let commentsWithoutExistingPost = new Set();
+        let id;
+        const resultArray = AllCommentsWithRich.map(item => {
+            if (item.article_id == 0) {
+                commentsWithoutExistingPost.add(item.article_id);
+            }
+            if (item.archive === 0 && item.richContent && item.richContent.nodes.length != 0 && item.article_id !== 0) {
+                const year = extractYear(item.date);
+                return {
+                    oldId: String(item.id),
+                    comment: {
+                        "appId": "91c9d6a7-6667-41fb-b0b4-7d3b3ff0b02e",
+                        "date": year,
+                        "author": {
+                            "memberId": allUsersMapped.get(item.writer_id) || "9839f2b5-8d32-4666-a7b5-8dfa13172051"
+                        },
+                        "content": { "richContent": { "nodes": item.richContent.nodes } },                        // "contextId": postMapData?.groupId,
+                        "resourceId": String(item.article_id),
+                        "marked": false,
+                    }
+                };
+            }
+        });
+        let res = resultArray.filter(item => item != undefined);
+        console.log("resultArray", res);
+        console.log("commentsWithoutExistingPost", commentsWithoutExistingPost);
+
+    </script>
+</body>
+
+</html>

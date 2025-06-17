@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <!--
+    First to run a query to get all the users from the old system.
+    SELECT
+    u.id,
+    u.nickname,
+    u.first_name,
+    u.last_name,
+    u.email,
+    u.image,
+    u.confirmed,
+    u.password,
+    u.social_id,
+    u.social_network,
+    u.created,
+    u.firstLogin,
+    u.archive,
+    up.birthdate,
+    up.city,
+    up.street,
+    up.street_number,
+    up.apartment_number,
+    up.zip_code,
+    up.car_brand,
+    up.car_model,
+    up.car_year,
+    up.website,
+    up.moto,
+    up.phone,
+    up.club_at,
+    pn.send_news,
+    pn.club,
+    pn.cars,
+    pn.motor,
+    pn.road,
+    pn.hiking,
+    pn.changed_by_admin,
+    p.name AS permission_name, -- Fetching permission name instead of ID
+    cc.e_name AS car_club_name -- Fetching car club name instead of ID
+    FROM users u
+    LEFT JOIN users_profile up ON u.id = up.user_id
+    LEFT JOIN profile_news_letter pn ON u.id = pn.user_id
+    LEFT JOIN permissions p ON u.permission = p.id
+    LEFT JOIN car_clubs cc ON up.car_club = cc.id
+    WHERE u.created>'2025-04-30'//This should be dynamic
+
+    after receiving the data from the old system, we need to upload all the members that we received from the query to
+    the wix collection and create them as members in the wix members area, the code appears in the file
+    "usersMigration.jsw" and the function name is userMigration (There you can see which colleciton to upload the
+    members to)
+    after the migration is done, the users that were created successfully should be downloaded, (You may see which
+    colleciton they are stored in the code in the file "usersMigration.jsw" ).
+    now run this script that maps the users that were created (rename the array as "allUsers"), then add them to the
+    file allUsersMaped.js (which contains all the users that were created successfully).
+-->
+<!--Notice! if the member's image filed is not equal to "/img/profile_image.png" so you have to first upload the image to the wix media, add the new id and old id to the array named "allMembersProfileImages"
+in the file "usersMigraiton, and only then the migratin can be done."-->
+    <script>
+        //a sample of the data that we received after downloading the users that were created successfully.
+        let allUsers =
+            [
+                {
+                    "Title": null,
+                    "ID": "0000a651-59c6-4975-bff7-0373fbe3f5fb",
+                    "Created Date": "2025-02-28T08:01:37Z",
+                    "Updated Date": "2025-02-28T08:01:37Z",
+                    "Owner": null,
+                    "Member": null,
+                    "City": null,
+                    "Email": "gabi2@bezeqint.net",
+                    "Carclub": null,
+                    "Postalcode": null,
+                    "Birthdate": null,
+                    "Street": null,
+                    "Nickname": null,
+                    "Newid": "baf5b5c6-f4d9-44c3-b99b-f263b7d53d53",
+                    "Oldid": 29060,
+                    "Permission": null,
+                    "Club": null,
+                    "Send_news": null,
+                    "Cars": null,
+                    "Road": null,
+                    "Hiking": null
+                },
+            ]
+        function mapUsers() {
+            let allUsersMapped = new Map(
+                allUsers
+                    .filter(user => user.Oldid && user.Newid) // Ensure Oldid and Newid exist
+                    .map(user => [user.Oldid, user.Newid]) // Convert to [Oldid, Newid] pairs
+            );
+            console.log(allUsersMapped);
+        }
+        mapUsers();
+    </script>
+</body>
+
+</html>

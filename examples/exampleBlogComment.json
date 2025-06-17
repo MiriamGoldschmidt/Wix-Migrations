@@ -1,0 +1,43 @@
+{
+    "oldId": "115",
+    "comment": {
+        "appId": "91c9d6a7-6667-41fb-b0b4-7d3b3ff0b02e",
+        "date": 2007,
+        "author": {
+            "memberId": "81cb3c5c-08b7-4595-8be4-db67242040d7"
+        },
+        "content": {
+            "richContent": {
+                "nodes": [
+                    {
+                        "type": "PARAGRAPH",
+                        "id": "bz9chqbvj",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "1gmmzgr3a",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "בכביש 10 שתי מכוניות לפחות נשק ",
+                                    "decorations": [
+                                        {
+                                            "type": "BOLD",
+                                            "fontWeightValue": 700
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "paragraphData": {
+                            "textStyle": {
+                                "textAlignment": "RIGHT"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "resourceId": "6015",
+        "marked": false
+    }
+}

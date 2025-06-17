@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <!--לפני שמריצים את המיגרציה הזו יש צורך לעדכן את כל הקבצים המופיעים למטה-ניתן להעזר בקובץ mapping-->
+    <script src="../JS FILES/eventsFromMigration26-03.js"></script><!--The event to migrate-->
+    <script src="../JS FILES/right_journey_sections.js"></script><!--miriam updated the file-- - יש קובץ עזר למיפוי בשם right_journeys_sectoin_mapping.html-->
+    <script src="../JS FILES/journeys_sections.js"></script><!--miriam updated the file-->
+    <script src="../JS FILES/teams.js"></script><!--miriam updated the file-->
+    <script src="../JS FILES/wixEventsImagesMap.js"></script><!--miriam updated the file-->
+    <script src="../JS FILES/journeys_equipments.js"></script><!--miriam updated the file-->
+    <script src="../JS FILES/journeys_terms.js"></script><!--miriam updated the file-->
+    <script src="../JS FILES/journeys_pourchase_terms.js"></script><!--miriam updated the file-->
+    <script src="../JS FILES/equipment.js"></script><!--miriam updated the file-->
+    <script src="../JS FILES/groupedJourneysImagesToUplad.js"></script><!--miriam updated the file-->
+    <script src="../JS FILES/failedWixEvents.js"></script><!-- לא צריך עדכון בשלב זה-->
+    <script src="../JS FILES/wixGuides.js"></script><!--לבדוק האם נוספו עוד מדריכים-->
+    <script src="../JS FILES/wixEventsMap.js"></script>
+    <!--miriam updated the file-מעדכנים את הקובץ הזה רק לאחר סיום המיגרציה- כאשר כל הEVENTS עלו בהצלחה לטבלת Events_map - ניתן להעזר בקובץ mapping ע"מ להתאים את המבנה שמתקבל-->
+    <script>
+        const idCount = {};
+        wixEventsMap.forEach(obj => {
+            const id = obj.originalId;
+            idCount[id] = (idCount[id] || 0) + 1;
+        });
+
+        // Filter out originalIds that occur more than once
+        const duplicateIds = Object.entries(idCount)
+            .filter(([id, count]) => count > 1)
+            .map(([id]) => id); // Convert back to integer if needed
+        console.log('===========duplicateIds', duplicateIds);
+
+        var jsonString = JSON.stringify();//convert js to json
+        const uniqueStrings = [...new Set()];
+        uniqueStrings.sort((a, b) => a - b);//sort an array from small to big
+        console.log('journeysEquipments', journeysEquipments);
+        console.log('equipments', equipments);
+        let erMoreThanOne = [];
+        let eoMoreThanOne = [];
+        journeysEquipments.forEach(element => {
+            if (element.requiredEquipment.length > 1) {
+                erMoreThanOne.push(element);
+            }
+            if (element.otherEquipment.length > 1) {
+                eoMoreThanOne.push(element);
+            }
+        });
+        //failed events
+        console.log('failedEvents', failedEvents);
+        let allFailedIds = [];
+        let undefindes = [];
+        failedEvents.forEach(failedEvent => {
+            if (failedEvent.journeyId === undefined) {
+                undefindes.push(failedEvent)
+            } else {
+                allFailedIds.push(failedEvent.journeyId)
+            }
+        })
+        //guides
+        let notFoundGuide = [];
+        let arrIdGuides = [];
+        oldEvents.forEach(element => {
+            if (element.guide_id) {
+                let wixGuide = wixGuides.find(guide => { return guide.ID === element.guide_id })
+                if (wixGuide === undefined) {
+                    notFoundGuide.push(element.guide_id)
+                } else {
+                    arrIdGuides.push({ journeyId: element.id, guide_id: wixGuide.Team })
+                    element.guide_id = wixGuide.Team;
+                }
+            }
+        });
+
+
+        console.log('================noFoundGuides', notFoundGuide);
+        console.log('arrIdGuides', arrIdGuides);
+        var jsonStringGuides = JSON.stringify(arrIdGuides);//convet js to json
+        console.log('========jsonGuides', jsonStringGuides);
+        let subjectsMap = new Map([
+            [11, '816fcda8-c7e8-44be-be44-1e2705dc6096'], // israel
+            [12, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7'], // world
+            [22, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7'], // world
+            [40, '8d08dca9-33dd-48a7-a646-8485b161e4df'], // trainings
+            [42, '8d08dca9-33dd-48a7-a646-8485b161e4df'], // trainings
+            [29, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7'],
+            [74, '816fcda8-c7e8-44be-be44-1e2705dc6096'],
+            [43, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7'],
+            [51, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7'],
+            [53, '816fcda8-c7e8-44be-be44-1e2705dc6096'],
+            [54, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7']
+        ]);
+
+        let interestsMap = new Map([
+            [1, 'bffb392e-a23b-436b-b0e2-0e63157af7de'],
+            [2, '882e1495-a06e-4a65-9bdf-7ddd90ec2e68'],
+            [3, '4ccf7520-e6e7-4c46-b12d-b462c10816b3'],
+            [4, 'e0d6b55a-e5ca-4db6-b2b2-2fe30acaab16']
+        ]);
+
+        let levelsMap = new Map([
+            [1, 'קלה'],
+            [2, 'קלה-בינונית'],
+            [3, 'בינונית'],
+            [4, 'בינונית-קשה'],
+            [5, 'קשה']
+        ]);
+
+        let carsMap = new Map([
+            [1, '34e914b4-f384-4863-8c17-ad28d8f5dcb2'],
+            [2, 'fab15247-f256-4e75-a870-4572c2204f03'],
+            [3, '55a841cb-bc85-4e86-a5e9-bc97271bfc7e'],
+            [4, '0461315e-9384-406e-b02f-f12a01cf119b'],
+            [5, 'f67e3909-e650-400c-9909-53acdebf0328'],
+            [6, 'ccde4474-5384-4c80-98ce-2a0635824073'],
+            [7, 'efcd8fc9-53dc-42b9-b1bb-e571f0e47ad7']
+        ]);
+
+        //miriam addition
+        let currencyMap = new Map([
+            ["USD", "3c2ecbb2-8513-48b7-9faf-cc1dcad94092"],
+            ["EUR", "64a4e001-23cb-4a90-9e8d-867a3e0abc3a"],
+            ["ILS", "cf161f2e-5c6f-490d-bfd3-01d797690fd8"]
+        ]);
+        oldEvents = oldEvents.filter(oldEvent => {
+            if (!oldEvent.content) {
+                console.log("oldEvent.content is undefined", oldEvent);
+                return false; // Exclude this item from the array
+            }
+            return true; // Keep this item in the array
+        });
+        //migration final!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        const defaultUrlImage = 'https://static.wixstatic.com/media/005c54_35a4ca47380a41049936a5530c1581fc~mv2.jpg';
+        oldEvents.forEach((oldEvent) => {
+            //subjects & interests
+            oldEvent.coverImageWixUrl = '';
+            oldEvent.subject_id = '';
+            oldEvent.interest_id = [];
+            let currentSections = newRight.find((r) => { return r.journey_id === oldEvent.id })
+            if (currentSections != undefined) {
+                oldEvent.subject_id = currentSections.subject_ids[0];
+                currentSections.interest_ids.forEach((interest) => {
+                    oldEvent.interest_id.push(interest)
+                })
+            }
+            //coverImage
+            if (oldEvent.image) {
+                let mappedImage = wixImagesMap.find((i) => { return i.originalUrl === oldEvent.image })
+                if (mappedImage != undefined) {
+                    oldEvent.image = `https://static.wixstatic.com/media/${mappedImage.externalUrl}`;
+                    oldEvent.coverImageWixUrl = mappedImage.wixUrl;
+                } else {
+                    oldEvent.image = defaultUrlImage;
+                }
+            }
+            //cars
+            if (oldEvent.car) {
+                oldEvent.car = carsMap.get(oldEvent.car);
+            } else {
+                oldEvent.car = null
+            }
+
+            //currency
+            if (oldEvent.currency) {
+                oldEvent.currency = currencyMap.get(oldEvent.currency);
+            } else {
+                oldEvent.currency = null
+            }
+            //level
+            if (oldEvent.level) {
+                oldEvent.level = levelsMap.get(oldEvent.level)
+            } else {
+                oldEvent.level = '';
+            }
+            //requiredEquipmentRef & otherEquipmentRef
+            let currentEquip = journeysEquipments.find((equip) => { return equip.journey_id === oldEvent.id })
+            if (currentEquip != undefined) {
+                oldEvent.requiredEquipmentRef = currentEquip.requiredEquipment[0];
+                oldEvent.otherEquipmentRef = currentEquip.otherEquipment[0];
+
+            }
+            //termsRef & purchaseTermsRef
+            let currentTerms = journeysTerms.find((terms) => { return terms.journey_id === oldEvent.id })
+            if (currentTerms != undefined) {
+                oldEvent.termsRef = currentTerms.term_ids[0];
+            }
+            let currentPurchaseTerms = journeysPurchaseTerms.find((pTerms) => { return pTerms.journey_id === oldEvent.id })
+            if (currentPurchaseTerms != undefined) {
+                oldEvent.purchaseTermsRef = currentPurchaseTerms.term_ids[0];
+            }
+            //media gallery
+            oldEvent.mediaGallery = [];
+            let currentImages = groupedJourneysImagesToUpladed.find((i) => { return i.journey_id === oldEvent.id })
+            if (currentImages != undefined) {
+                console.log("currentImages is not undefined", currentImages);
+                currentImages.images.forEach((image) => {
+                    if (image.small) {
+                        let wixImage = wixImagesMap.find((i) => { return i.originalUrl === image.small })
+                        if (wixImage != undefined) {
+                            console.log("image is not undefined");
+
+                            oldEvent.mediaGallery.push({ wixUrl: wixImage.wixUrl, externalUrl: wixImage.externalUrl })
+                        }
+                    }
+                })
+            }
+        })
+        console.log('newww ==== oldEvents', oldEvents);
+
+        // let allSrc = [];
+        // let allHref = [];
+        // oldEvents.forEach((oldEvent)=>{
+        //     const parser = new DOMParser();
+        //     const doc = parser.parseFromString(oldEvent.content, 'text/html');
+
+        //     const imagesTags = Array.from(doc.getElementsByTagName('img')).map(img => ({
+        //         src: img.getAttribute('src'),
+        //         href: img.getAttribute('href')
+        //     }));
+
+        //     const linksTags = Array.from(doc.getElementsByTagName('a')).map(link => ({
+        //         src: link.getAttribute('src'),
+        //         href: link.getAttribute('href')
+        //     }));
+
+        //     imagesTags.forEach(image => {
+        //         if (image.src) {
+        //         }
+        //         if (image.href) {
+        //             allHref.push(image.href);
+        //         }
+        //     });
+
+        //     linksTags.forEach(link => {
+        //         if (link.src) {
+        //             allSrc.push(link.src);
+        //         }
+        //         if (link.href) {
+        //             allHref.push(link.href);
+        //         }
+        //     });
+
+        // })
+    </script>
+</body>
+
+</html>

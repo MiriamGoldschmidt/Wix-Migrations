@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <script>
+        let subjectsMap = new Map([
+            [11, '816fcda8-c7e8-44be-be44-1e2705dc6096'],
+            [12, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7'],
+            [22, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7'],
+            [40, '8d08dca9-33dd-48a7-a646-8485b161e4df'],
+            [42, '8d08dca9-33dd-48a7-a646-8485b161e4df'],
+            [29, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7'],
+            [74, '816fcda8-c7e8-44be-be44-1e2705dc6096'],
+            [43, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7'],
+            [51, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7'],
+            [53, '816fcda8-c7e8-44be-be44-1e2705dc6096'],
+            [54, '6b0b06c4-7476-4bf2-84ed-fd56b9f77ad7']
+        ]);
+
+        let interestsMap = new Map([
+            [1, 'bffb392e-a23b-436b-b0e2-0e63157af7de'],
+            [2, '882e1495-a06e-4a65-9bdf-7ddd90ec2e68'],
+            [3, '4ccf7520-e6e7-4c46-b12d-b462c10816b3'],
+            [4, 'e0d6b55a-e5ca-4db6-b2b2-2fe30acaab16']
+        ]);
+        //an example of the data structure
+        let arr =
+            [
+                {
+                    "id": 19246,
+                    "journey_id": 3846,
+                    "interest_ids": [
+                        1
+                    ],
+                    "subject_ids": [
+                        11
+                    ]
+                },
+            ]
+        let groupedData = new Map();
+
+        arr.forEach(({ id, journey_id, interest_ids, subject_ids }) => {
+            if (!groupedData.has(journey_id)) {
+                groupedData.set(journey_id, {
+                    id,
+                    journey_id,
+                    interest_ids: new Set(),
+                    subject_ids: new Set()
+                });
+            }
+            let journey = groupedData.get(journey_id);
+            interest_ids.forEach(interest_id => {
+                if (interestsMap.has(interest_id)) {
+                    journey.interest_ids.add(interestsMap.get(interest_id));
+                }
+            });
+            subject_ids.forEach(subject_id => {
+                if (subjectsMap.has(subject_id)) {
+                    journey.subject_ids.add(subjectsMap.get(subject_id));
+                }
+            });
+        });
+
+        let result = Array.from(groupedData.values()).map(journey => ({
+            ...journey,
+            interest_ids: Array.from(journey.interest_ids),
+            subject_ids: Array.from(journey.subject_ids)
+        }));
+
+        console.log(result);
+
+
+    </script>
+</body>
+
+</html>

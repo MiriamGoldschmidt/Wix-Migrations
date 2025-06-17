@@ -1,0 +1,349 @@
+
+{
+    "id": 3846,
+    "richContent": {
+        "nodes": [
+            {
+                "type": "PARAGRAPH",
+                "id": "xlnnhlddv",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "l93epqey9",
+                        "nodes": [],
+                        "textData": {
+                            "text": "' ",
+                            "decorations": []
+                        }
+                    }
+                ],
+                "paragraphData": {
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    },
+                    "indentation": 0
+                }
+            },
+            {
+                "type": "PARAGRAPH",
+                "id": "35oz2dew6",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "0phzyo0sz",
+                        "nodes": [],
+                        "textData": {
+                            "text": "יציאה מובטחת! נותר מקום אחרון ",
+                            "decorations": [
+                                {
+                                    "type": "BOLD",
+                                    "fontWeightValue": 700
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "c2zb68siw",
+                        "nodes": [],
+                        "textData": {
+                            "text": "(אלא אם מופיע שהמסע מלא) ",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "ghum2s9lt",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "jf0bw7th3",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "u77e14lwm",
+                        "nodes": [],
+                        "textData": {
+                            "text": "נצא לטפס את הגלבוע ולהנות מנופים ירוקים ופריחה צבעונית. ",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "t9xd2bz7d",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "qmcyepc61",
+                        "nodes": [],
+                        "textData": {
+                            "text": "בהמשך נרד לעמק שמלא במעיינות ונחלים. ",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "apbov6p9y",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "7pv4493d0",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "zzvypxdzp",
+                        "nodes": [],
+                        "textData": {
+                            "text": "נקודות עניין: ",
+                            "decorations": [
+                                {
+                                    "type": "BOLD",
+                                    "fontWeightValue": 700
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "jkao99yrk",
+                        "nodes": [],
+                        "textData": {
+                            "text": "עין יזרעאל, מצפה הר שאול, דרך נוף גלבוע, הר ברקן, חניון האירוסים, הר יצפור, מלכישוע, מורד נחל בזק, נחל אבוקה ועמק המעיינות. ",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "eymaqlvb6",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "q72o6tqqu",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "ify64krpf",
+                        "nodes": [],
+                        "textData": {
+                            "text": "המפגש: ",
+                            "decorations": [
+                                {
+                                    "type": "BOLD",
+                                    "fontWeightValue": 700
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "p70w1jwcd",
+                        "nodes": [],
+                        "textData": {
+                            "text": "עין יזרעאל בשעה 9:00, אחריי תדלוק ",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "b62htd2x2",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "q2qy1rzyh",
+                        "nodes": [],
+                        "textData": {
+                            "text": "סיום משוער ב-16:00 באזור בית שאן ",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "mkhr40yxc",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "fi829jie4",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "vylqn4iya",
+                        "nodes": [],
+                        "textData": {
+                            "text": "עבירות: ",
+                            "decorations": [
+                                {
+                                    "type": "BOLD",
+                                    "fontWeightValue": 700
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "chpg4rzst",
+                        "nodes": [],
+                        "textData": {
+                            "text": "קל לרכבי שטח עם הילוך כח ובינוני לשאר (נפגוש לא מעט בוץ) ",
+                            "decorations": []
+                        }
+                    }
+                ],
+                "paragraphData": {
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    },
+                    "indentation": 0
+                }
+            },
+            {
+                "type": "GALLERY",
+                "id": "990ayoopt",
+                "nodes": [],
+                "galleryData": {
+                    "containerData": {
+                        "width": {
+                            "size": "CONTENT"
+                        },
+                        "alignment": "CENTER",
+                        "spoiler": {
+                            "enabled": false
+                        },
+                        "textWrap": true
+                    },
+                    "items": [
+                        {
+                            "image": {
+                                "media": {
+                                    "src": {
+                                        "url": "32c57e_ab33396037974de6ba9af5b79b0838fb~mv2.jpg"
+                                    },
+                                    "width": 1200,
+                                    "height": 800,
+                                    "displayMode": "fit",
+                                    "fitMode": "fit"
+                                }
+                            }
+                        },
+                        {
+                            "image": {
+                                "media": {
+                                    "src": {
+                                        "url": "32c57e_33d4e1a72b73451fa4ddc4d358027c7b~mv2.jpeg"
+                                    },
+                                    "width": 1200,
+                                    "height": 800,
+                                    "displayMode": "fit",
+                                    "fitMode": "fit"
+                                }
+                            }
+                        }
+                    ],
+                    "options": {
+                        "layout": {
+                            "horizontalScroll": false,
+                            "numberOfColumns": 3,
+                            "orientation": "COLUMNS",
+                            "type": "GRID"
+                        },
+                        "item": {
+                            "crop": "FILL",
+                            "ratio": 1.7777777777777777
+                        },
+                        "thumbnails": {
+                            "placement": "NONE"
+                        }
+                    }
+                }
+            },
+            {
+                "type": "PARAGRAPH",
+                "id": "p56ertgl2",
+                "nodes": [],
+                "paragraphData": {
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    },
+                    "indentation": 0
+                }
+            },
+            {
+                "type": "PARAGRAPH",
+                "id": "lkzuabtr8",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "tg98ri7ht",
+                        "nodes": [],
+                        "textData": {
+                            "text": "' ",
+                            "decorations": []
+                        }
+                    }
+                ],
+                "paragraphData": {
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    },
+                    "indentation": 0
+                }
+            }
+        ],
+        "metadata": {
+            "version": 1,
+            "createdTimestamp": "2023-12-07T10:02:02.347Z",
+            "updatedTimestamp": "2023-12-07T10:02:02.347Z",
+            "id": "4904df70-ae35-48a7-bd0e-06f254dc733c"
+        },
+        "documentStyle": {}
+    }
+}

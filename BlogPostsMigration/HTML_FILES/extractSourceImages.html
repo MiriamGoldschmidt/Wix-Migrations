@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Parsing Example</title>
+</head>
+
+
+
+<!--This file extrects all the images that have in the url the extension small,
+The demand of the customer was to extract the images that are in the posts content and have the extension small, and then to replace the small with source, and then to upload them to the wix media.
+so this code replaces the small with source,-->
+<!--If the demand is to upload the images regularly, so use the "extractImages.html" file and add the images that were imported successfully to the wix media managment to the file "wixImages.js"-->
+<body>
+  <script src="../JS FILES/postsSince17Until24Final.js"></script>
+
+  <script>
+
+    function extractImageURLs() {
+      const imageURLs = [];
+      for (let post of allOldPosts) {
+        if (post.archive === 0) {
+          const imgTags = post.content.match(/<img[^>]+src=["']([^"']+)["']/g);
+          if (imgTags) {
+            for (let tag of imgTags) {
+              const srcMatch = tag.match(/src=["']([^"']+)["']/);
+              if (srcMatch && srcMatch[1] && srcMatch[1].includes("_small.")) {
+                imageURLs.push({ "url": srcMatch[1] });
+              }
+            }
+          }
+        }
+      } 
+            
+      // Replace "_small" with "_source" in each URL
+      const updatedImageURLs = imageURLs.map(image => ({
+        "url": image.url.replace("_small", "_source")
+      }));
+      return updatedImageURLs;
+    }
+
+    const images = extractImageURLs();
+    console.log("Valid images:", images);
+  </script>
+</body>
+
+</html>

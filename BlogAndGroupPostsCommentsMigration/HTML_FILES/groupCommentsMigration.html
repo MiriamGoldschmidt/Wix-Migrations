@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>convert comments</title>
+</head>
+
+<body>
+    <!--This file can be executed only after running the file commentsMapping which converts the content to richcontent-->
+    <script src="../JS FILES/allCommentsWithRichContent.js"></script>
+    <!--This file must be updated--><!--result of the migration commentsMapping-->
+    <script src="../JS Files/groupPosts-afterMapping.js"></script><!--This file must be updated-->
+    <script src="../JS Files/allUsersMaped.js"></script><!--Before running the migratio this file should be updated-->
+    <script>
+        function extractYear(dateString) {
+            const date = new Date(dateString);
+            return date.getFullYear();
+        }
+        let id;
+        let commentsWithoutExistingGroup = new Set();
+        const resultArray = AllCommentsWithRich.map(item => {
+
+            id = "00000000-0000-0000-0000-";
+            for (let i = 12; i > String(item.post_id).length; i--) {
+                id += "0"
+            }
+            id += item.post_id;
+            const postMapData = posts.find(i => i.oldId === id)
+            if (!postMapData && item.archive === 0)
+                commentsWithoutExistingGroup.add(item.post_id); // Add to Set if not found
+            if (item.archive === 0 && item.richContent && item.richContent.nodes.length != 0 && postMapData) {
+                const year = extractYear(item.date);
+                return {
+                    oldId: item.id,
+                    comment: {
+                        "appId": "148c2287-c669-d849-d153-463c7486a694",
+                        "date": year,
+                        "author": {
+                            "memberId": allUsersMapped.get(item.writer_id) || "9839f2b5-8d32-4666-a7b5-8dfa13172051"
+                        },
+                        "content": { "richContent": { "nodes": item.richContent.nodes } },
+                        "contextId": postMapData?.groupId,
+                        "resourceId": postMapData?.oldId,
+                        "marked": false,
+                    }
+
+                };
+            }
+        });
+        let res = resultArray.filter(item => item != undefined);
+        console.log("resultArray", res);
+        console.log("commentsWithoutExistingGroup", commentsWithoutExistingGroup);
+
+    </script>
+</body>
+
+</html>
+
+

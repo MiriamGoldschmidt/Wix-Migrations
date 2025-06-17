@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!--This file helps to remove a wrapping div out of the content of a post- The post content can not start with a div, so inorder to remove it run this file on the posts and the wrapping first div (opening and closing tag) will be removed-->
+<body>
+    <script src="../JS FILES/temp.js"></script>
+    <script>
+    
+        function removeFirstOuterDiv(content) {
+            const container = document.createElement('div');
+            container.innerHTML = content;
+
+            // אם האלמנט הראשון הוא <div>, נחזיר את התוכן הפנימי שלו
+            const firstChild = container.firstElementChild;
+            if (firstChild && firstChild.tagName === 'DIV') {
+                return firstChild.innerHTML + container.innerHTML.replace(firstChild.outerHTML, '');
+            }
+            return content;
+        }
+
+        console.log("allOldPosts before:", allOldPosts);
+        allOldPosts.forEach(post => {
+            if (post.content.startsWith("<div")) { post.content = removeFirstOuterDiv(post.content); }
+        })
+        console.log("allOldPosts after:", allOldPosts); 
+        </script>
+</body>
+
+</html>

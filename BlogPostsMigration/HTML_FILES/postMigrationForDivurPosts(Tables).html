@@ -1,0 +1,299 @@
+<html>
+
+<head>
+	<!-- <meta charset="UTF-8"> -->
+	<!--Notice!!This migration fits only posts that their date is after 2017
+		in order to migrate posts before 2017, run the file "postsMigraionBefore2017.html"-->
+	<script src="../JS FILES/newWritersStudio.js"></script><!--No need to update-->
+	<script src="../JS FILES/subjects.js"></script><!--No need to update-->
+	<script src="../JS FILES/wixImages.js"></script>
+	<!--Update if the demand is to upload regular images, in this case the demand is to upload source images!! run the "extractImages.html" file-->
+	<script src="../JS FILES/allSourceImagesUploaded.js"></script>
+	<!--Update the source images, if this is the demand!! run the "extractSourceImages.html" file-->
+	<!--
+		קובץ זה מכיל את התמונות שנמצאות בתוך ה-CONTENT של ה-POST.
+		אלו תמונות שנמצאות במדיה של Wix.
+		עדכון הקובץ:
+		כדי לעדכן את הקובץ הזה, יש לבצע מיגרציה נוספת שנכתבה בקובץ "extractSourceImages.html".
+		בקובץ זה מתבצע חילוץ של התמונות. לאחר שמקבלים את מערך התמונות, יש להריץ קוד של "uploadImagesToGallery" (באתר 4X4 יש קובץ בשם UPLOADIMAGES שמבצע זאת).
+		את התמונות שהועלו יש להוריד מהטבלה "allSourceImagesUploaded.js" שמתקבלת, ולעדכן את הטבלה הזו בקובץ.
+		***********************************************************************
+		A file that contains the images within the CONTENT of the POST.
+		These are images located in Wix's media library.
+		To update this file, an additional migration is required, which is written in the "extractSourceImages.html" file.
+		There, the images are extracted. After obtaining the array of images, you need to run the "uploadImagesToGallery" code (there is a file named UPLOADIMAGES on the 4X4 site that handles this).
+		Once the images are uploaded, download the table which contains the new images (You can find the table in the "wixMediaManager_onFileUploaded" event in the "events.js" file) and add it to the  "allSourceImagesUploaded.js" file.
+		-->
+	<script src="../JS FILES/categories.js"></script><!--No need to update-->
+	<script src="../JS FILES/postsWithTables.js"></script>
+	<!--The posts of type divur-->
+	<!-- <script src="../JS Files/temp.js"></script> -->
+	<script src="../JS FILES/interests.js"></script><!--No need to update-->
+	<script src="../JS FILES/tags.js"></script><!--No need to update-->
+	<script src="../JS FILES/newTags.js"></script><!--Must be updated before migration-->
+	<script src="../JS FILES/ariclesCategories.js"></script><!--Must be updated before migration-->
+</head>
+
+<body>
+	<script>
+		const parser = new DOMParser();
+		let allMappedPosts = [];
+		allOldPosts.forEach(post => {
+			let writer = writers.find(write => write.oldId == post.writer_id);
+			if (!writer) {
+				writer = {
+					studioId: 'd2ae6c29-d9f1-42c3-8e7c-da9bb995e566'
+				}
+			}
+			post.writer_id = writer.studioId;
+			let photographer = writers.find(write => write.oldId == post.photographer_id);
+			if (!photographer) {
+				photographer = {
+					studioId: null
+				}
+			}
+			post.photographer_id = photographer.studioId;
+			let normalizedSrc = post.image.replace("_small", "_source");
+			let foundImage = fullObject.find(obj => obj.Originalurl === normalizedSrc);
+			let image = foundImage ? `https://static.wixstatic.com/media/${foundImage.Externalurl}` : null;
+			if (!image) {
+				image = fullObject1[post.image];
+				if (!image) {
+					image = 'https://static.wixstatic.com/media/25e1f6_0616406135c64c9e84eaa0446a7427b2~mv2.jpg'
+				}
+			}
+			post.image = image;
+			post.title = processContent(post.title);
+			let doc = parser.parseFromString(post.content, 'text/html');
+			const images = doc.querySelectorAll('img');
+			console.log("images:", images);
+			images.forEach(imgTag => {
+				if (imgTag) {
+					let normalizedSrc = imgTag.src.replace("_small", "_source");
+					let foundImage = fullObject.find(obj => obj.Originalurl === normalizedSrc);
+					let newSrc = foundImage ? `https://static.wixstatic.com/media/${foundImage.Externalurl}` : null;
+					if (!newSrc) {
+						newSrc = fullObject1[imgTag.src];
+					}
+					if (!newSrc) {
+						imgTag.remove();
+					} else {
+						imgTag.src = newSrc;
+					}
+				}
+			});
+			post.content = doc.documentElement.outerHTML;
+			let categoriesForPost = allCategories.find(pos => pos.id == post.id);
+			if (categoriesForPost) {
+				let postInterests = categoriesForPost.interest_ids.split(',');
+				let finalInterests = [];
+				postInterests.forEach(interest => {
+					finalInterests.push(blogInterests[interest]);
+				});
+				post.interests = finalInterests;
+				let postCategories = categoriesForPost.category_ids.split(',');
+				let finalCategories = [];
+				postCategories.forEach(category => {
+					if (category != 0)
+						finalCategories.push(categories[category]);
+				});
+				post.categories = finalCategories;
+				let postSubjects = categoriesForPost.subject_ids.split(',');
+				let finalSubjects = [];
+				postSubjects.forEach(subject => {
+					finalSubjects.push(subjects[subject]);
+				});
+				post.subjects = finalSubjects;
+			}
+			let tags = postTagsArr.find(postTag => postTag.article_id == post.id);
+			if (tags) {
+				let tagArr = tags.tag_ids.split(',');
+				let finalTags = [];
+				tagArr.forEach(tag => {
+					finalTags.push(tagsAll[tag]);
+				});
+				post.wixTags = finalTags;
+			}
+			else {
+				post.wixTags = [];
+			}
+			allMappedPosts.push(post);
+		});
+		let arrObj = [];
+		for (let i = 0; i < allMappedPosts.length; i++) {
+			let cont = allMappedPosts[i].content;
+			let copyRichh = {
+				"nodes": [],
+				"metadata": {
+					"version": 1,
+					"createdTimestamp": "2023-12-07T10:02:02.347Z",
+					"updatedTimestamp": "2023-12-07T10:02:02.347Z",
+					"id": "4904df70-ae35-48a7-bd0e-06f254dc733c"
+				},
+				"documentStyle": {}
+			}
+
+			function unescapeHtmlString(escapedStr) {
+				return escapedStr
+					.replace(/\\"/g, '"')   
+					.replace(/\\'/g, "'")   
+					.replace(/\\n/g, '\n')  
+					.replace(/\\t/g, '\t') 
+					.replace(/\\\\/g, '\\')
+					.replace(/\\%/g, '%'); 
+			}
+			let cleanedHtml = unescapeHtmlString(cont);
+			let newHtmlNode =
+			{
+				"type": "HTML",
+				"id": generateUniqueId(),
+				"nodes": [
+				],
+				"htmlData": { "containerData": { "width": { "custom": "1000" }, "alignment": "CENTER", "height": { "custom": "700" }, "textWrap": true }, "html": cleanedHtml, "source": "HTML" }
+			}
+			allMappedPosts[i].richContent = copyRichh;
+			allMappedPosts[i].richContent.nodes.unshift(newHtmlNode)
+			let subTitle = allOldPosts[i].subtitle;
+			subTitle = subTitle.replace(/<br\s*\/?>/g, '\n');
+			subTitle = processContent(subTitle);
+			allOldPosts[i].subtitle = subTitle;
+			let newNode1 =
+			{
+				"type": "HEADING",
+				"id": generateUniqueId(),
+				"nodes": [
+					{
+						"type": "TEXT",
+						"id": "j94ehbpst",
+						"nodes": [],
+						"textData": {
+							"text": subTitle,
+							"decorations": []
+						}
+					}
+				],
+				"headingData": {
+					"level": 4, "textStyle": {
+						"textAlignment": "RIGHT"
+					}
+				}
+			}
+			if (
+				allMappedPosts &&
+				allMappedPosts[i] &&
+				allMappedPosts[i].richContent &&
+				Array.isArray(allMappedPosts[i].richContent.nodes)
+			) {
+				allMappedPosts[i].richContent.nodes.unshift(newNode1);
+			}
+			delete allMappedPosts[i].content;
+			arrObj.push(allMappedPosts[i]);
+		}
+		let regionsCategoriesIds = [
+			'f1a41dfe-8d1e-424c-b472-0c323a9e35ad',
+			'e62e3409-d1e1-4b19-9455-af2d8ef908a0',
+			'a6c1dc9e-fedc-4759-8039-3634d1278c42',
+			'6b0e8cfa-c3a2-432f-b9ca-07bfdc39e448',
+			'343f23cc-3b62-4eaf-91e3-cd8d383bc68c',
+			'1c5dca15-a018-45ac-826f-c4e0aaf01186',
+			'17a9344d-a155-48b9-8a7d-10cea1c3445e'
+		];
+		let countriesCategoriesIds = [
+			'fac23a80-2fcb-490f-9cbe-48109648f06a',
+			'f8ec01a4-4a60-4625-b6bd-1d99f22d1a7c',
+			'f8212e3e-1d03-419e-b936-c8a864780889',
+			'c5116fb0-861c-471f-ac18-882065745f12',
+			'a58faa8d-8f98-4739-9005-ec015583dd45',
+			'9f25a92d-4838-4d50-9598-1544bfc62215',
+			'9ed2c95b-a536-408f-b497-6704336b5263',
+			'92acf168-f586-4cb0-b1ce-82c9f43c671d',
+			'8d67d390-b3e6-4feb-8d15-0c13d4ba235b',
+			'88248f46-dd5a-4c41-a340-49094b5a1227',
+			'780b5773-2f31-47f4-827b-71c2967091a8',
+			'6a01a581-3c93-4231-8141-09fe92af4c52',
+			'6656b2d4-ba72-4286-910e-f45f28ee1207',
+			'4c1166e5-81db-4b04-b640-f2df08dae312',
+			'415f9966-13ce-432b-8c60-f146dad7c816',
+			'2a141f4c-dc49-4af5-8294-0a8efe2875b2',
+			'0e52be0e-1028-4b26-acdb-b02a449beac7',
+			'06defbd5-7a07-4566-8934-5cd913f4ba51'
+		];
+		let IsraelCategory = '9fa913fa-eebe-4a90-aa66-f340f235025f';
+		let worldCategory = '23b44a8f-1120-45f4-8814-fea1b7f1ab4b';
+		let newPostsToUpload = [];
+		arrObj.forEach(oldPost => {
+			let indexOfIsrael = -1;
+			let indexOfWorld = -1;
+			let newPost = oldPost;
+			newPost.subSubSubCategories = [];
+			//subcategory is in earth:
+			if (newPost?.subjects?.includes(IsraelCategory)) {
+				indexOfIsrael = newPost.subjects.indexOf(IsraelCategory);
+				//also subsub is erth- delete the sub
+				if (newPost?.categories?.includes(IsraelCategory)) {
+				} else {
+					newPost?.categories?.push(IsraelCategory)
+				}
+				let indexesToSplice = [];
+				newPost.categories.forEach((category, index) => {
+					if (regionsCategoriesIds.includes(category)) {
+						newPost.subSubSubCategories.push(category);
+						indexesToSplice.push(category);
+					}
+				})
+				indexesToSplice.forEach((indexToSplice) => {
+					let indexRegoin = newPost.categories.indexOf(indexToSplice);
+					if (indexRegoin > -1) {
+						newPost.categories.splice(indexRegoin, 1);
+					}
+				})
+			}
+			if (indexOfIsrael > -1) {
+				newPost?.subjects?.splice(indexOfIsrael, 1);
+			}
+			//subcategory is in world:
+			if (newPost?.subjects?.includes(worldCategory)) {
+				indexOfWorld = newPost.subjects.indexOf(worldCategory);
+				//also subsub is erth- delete the sub
+				if (newPost?.categories?.includes(worldCategory)) {
+				} else {
+					newPost?.categories?.push(worldCategory)
+				}
+				let indexesToSplice = [];
+				newPost?.categories?.forEach((category, index) => {
+					if (countriesCategoriesIds.includes(category)) {
+						newPost.subSubSubCategories.push(category);
+						indexesToSplice.push(category);
+					}
+				})
+				indexesToSplice.forEach((indexToSplice) => {
+					let indexRegoin = newPost.categories.indexOf(indexToSplice);
+					if (indexRegoin > -1) {
+						newPost.categories.splice(indexRegoin, 1);
+					}
+				})
+			}
+			if (indexOfWorld > -1) {
+				newPost?.subjects?.splice(indexOfWorld, 1);
+			}
+			if (!(newPost.richContent == "undefined")) {
+				newPostsToUpload.push(newPost);
+			}
+		});
+		console.log('after newPostsToUpload newwwwwwww', newPostsToUpload);
+		function generateUniqueId() {
+			return Math.random().toString(36).substr(2, 9);
+		}
+
+		function processContent(content) {
+			return content.replace(/&quot;/g, '"')
+				.replace(/&amp;/g, '&')
+				.replace(/&lt;/g, '<')
+				.replace(/&gt;/g, '>')
+				.replace(/&apos;/g, "'")
+				.replace(/&nbsp;/g, ' ');
+		}
+	</script>
+</body>
+
+</html>

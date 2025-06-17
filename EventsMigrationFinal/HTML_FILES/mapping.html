@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<!--This is a file intended to assist in adapting all the files that need to be completed so that they conform to the given structure for the migration of the EVENTS.
+זהו קובץ שמיועד לעזור בהתאמת כל הקבצים שיש להשלים כך שיהיו במבנה הנתון עבור המיגרציה של ה-EVENTS.-->
+	<script src="../JS FILES/imagesUploadedSuccessfully.js"></script>
+	<script>
+
+
+		//first to run the following query
+		// SELECT
+		//     journey_id,
+		//     CONCAT('[', GROUP_CONCAT(DISTINCT term_id ORDER BY term_id), ']') AS term_ids
+		// FROM journeys_terms //the collection name should be dynamic
+		// WHERE journey_id > 3845 //the journey is should be dynamic
+		// GROUP BY journey_id;
+		//******then with the retrived list to run the code******
+
+
+		//if it is journeys_equipment
+		//to run the query
+		//         SELECT 
+		//     je.journey_id,
+		//     CONCAT('[', GROUP_CONCAT(DISTINCT equipment_id ORDER BY equipment_id), ']') AS equipment_ids,
+		//    CONCAT('[', GROUP_CONCAT(DISTINCT CASE WHEN e.required = 1 THEN e.id END ORDER BY e.id), ']') AS requiredEquipment,
+		//     CONCAT('[', GROUP_CONCAT(DISTINCT CASE WHEN e.required = 0 THEN e.id END ORDER BY e.id), ']') AS otherEquipment
+		// FROM journeys_equipment je
+		// JOIN equipments e ON je.equipment_id = e.id
+		// WHERE je.journey_id > 3845//the journey is should be dynamic
+		// GROUP BY je.journey_id;
+		let arr =//example on an arry of objects that we get from the query above
+			[
+				{
+					"journey_id": 3846,
+					"equipment_ids": "[13,14]",
+					"requiredEquipment": "[13]",
+					"otherEquipment": "[14]"
+				},
+			]
+
+		let transformedData = arr.map(item => ({
+			journey_id: item.journey_id,
+			// term_ids: JSON.parse(item.term_ids) 
+			equipment_ids: JSON.parse(item.equipment_ids),// Converts stringified array to real array
+			requiredEquipment: JSON.parse(item.requiredEquipment),
+			otherEquipment: JSON.parse(item.otherEquipment),
+		}));
+
+		// console.log(transformedData);
+
+		//****************now its migration images*******************
+
+		//first run this query
+		// SELECT journey_id,small,big
+		// from journey_images
+		// where journey_id>3701 //this should be dynamic according to the journey_id you watn to get the images from
+		// group by journey_id,small,big
+
+		//an example of the data we get from the query above
+		let images = [
+			{
+				"journey_id": 3992,
+				"small": "https://www.4x4.co.il/images/journeys/3992/1727597089206_small.jpg",
+				"big": "https://www.4x4.co.il/images/journeys/3992/1727597089206.jpg"
+			},
+		]
+		function groupImagesByJourney(images) {
+			const result = [];
+			images.forEach(({ journey_id, small, big }) => {
+				// Find if journey_id already exists in the result array
+				let journey = result.find(item => item.journey_id === journey_id);
+				if (!journey) {
+					// If not found, create a new entry
+					journey = { journey_id, images: [] };
+					result.push(journey);
+				}
+
+				// Add the small and big URLs to the images array
+				journey.images.push({ small, big });
+			});
+
+			return result;
+		}
+
+
+		// console.log(JSON.stringify(groupImagesByJourney(images), null, 2));
+
+
+		//extract images from the image array inorder to upload them
+		function extractImageUrls(images) {
+			return images.flatMap(image => [image.small, image.big]);
+		}
+
+		// console.log(extractImageUrls(images));
+
+		let uniqueImages = uploadedImages.filter((value, index, self) =>
+			index === self.findIndex((t) => (
+				t.Originalurl === value.Originalurl
+			))
+		);
+		uniqueImages = uniqueImages.map(image => {
+			return {
+				...image,
+				externalUrl: image.Externalurl,
+				originalUrl: image.Originalurl,
+				height: image.Height,
+				width: image.Width,
+				wixUrl: image.Wixurl
+			};
+		});
+
+
+		// Remove the old fields
+		uniqueImages = uniqueImages.map(image => {
+			const { Externalurl, Originalurl, Height, Width, Wixurl, ...rest } = image;
+			return rest;
+		});
+
+		console.log(uniqueImages);
+
+
+
+		//after getting newEvents code to match them to the wixEventsMap file
+		//an example of the data received from the collection
+		let newEvents =
+			[
+				{
+					"Title": null,
+					"original Id": 3989,
+					"wix Id": "9f88b872-3904-4d5b-bdf9-1ebc6201c5f6",
+					"ID": "00658d56-5d98-46d8-8069-aff85898157a",
+					"Created Date": "2025-04-07T13:25:17Z"
+				},
+			]
+
+		let transformedEvents = newEvents.map(event => {
+			return {
+				originalId: event["original Id"], // Rename "original Id" to "originalId"
+				wixId: event["wix Id"], // Rename "wix Id" to "wixId",
+				ID: event["ID"]
+			};
+		});
+
+		console.log("transformedEvents", transformedEvents);
+	</script>
+</body>
+
+</html>

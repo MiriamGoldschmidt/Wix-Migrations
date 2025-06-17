@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+</head>
+<!--After receiving the array of the new mapped group posts, add the groupPosts array to the file "groupPosts-afterMapping" in the "BlogAndGroupPostsCommentsMigration" folder
+ under the JS FILES-->
+<body>
+  <script src="../JS Files/allUsersMaped.js"></script><!--Before running the migratio this file should be updated-->
+  <script src="../JS Files/groupPostImagesUploaded.js"></script><!--Before running the migratio this file should be updated-->
+  <script src="../JS Files/groupPostsDeltas.js"></script><!--The new group posts to be migrated-->
+  <script>
+    function cleanTitles(array) {
+      const cleanedArray = array.map(obj => {
+        if (typeof obj.title === 'string') {
+          const tempElement = document.createElement('div');
+          tempElement.innerHTML = obj.title;
+          let cleanedTitle = tempElement.textContent || tempElement.innerText;
+          return { ...obj, title: cleanedTitle };
+        } else {
+          return obj;
+        }
+      });
+      return cleanedArray;
+    }
+
+    allGroupPosts = cleanTitles(allGroupPosts);
+    let groupPosts = [], urlParts, fixContent, cnt = 0, arr = [];
+    groupsMap = new Map([[16, "2ca92c7b-b755-4155-b8af-0d59be0a14ad"], [12, "e2e65cb5-e86f-49a2-b39c-1f092f3801ba"], [22, "660e7df3-ffe8-4ac2-b822-8005172a462f"], [38, "a76703a4-0706-4bd2-86a8-f09675253418"], [41, "500b5c24-ce01-448e-8b9b-33299786011e"], [43, "d9d3dc96-0998-4386-b05a-745c50a23bff"]]);
+    let content, type, entityMap = {}, inlineStyleRanges = [], entityRanges = [];
+    let foundObject, sourceSrc = '', file_name = '', original_file_name = '';
+    allGroupPosts.forEach((post) => {
+      if (post.archive === 0) {
+        oldId = "00000000-0000-0000-0000-";
+        for (let i = 12; i > String(post.id).length; i--) {
+          oldId += "0"
+        }
+        oldId += post.id;
+        groupId = groupsMap.get(post.forum_id);
+        createdBy = allUsersMapped.get(post.writer_id);
+        createdAt = post.date;
+        fixContent = fixHTMLContent(post.content);
+        if (post.title) {
+          content = {
+            "blocks": [{
+
+              "key": Math.random().toString(36).substring(7),
+
+              "text": post.title,
+
+              "type": "header-two",
+
+              "depth": 0,
+
+              "inlineStyleRanges": [],
+
+              "entityRanges": [],
+
+              "data": { "textAlignment": "right" }
+
+            }],
+
+            "entityMap": {},
+
+            "documentStyle": {},
+
+            "VERSION": "9.14.3",
+
+            "ID": "c5cfb5b8-6465-46bc-a9f1-763b4a4b2676"
+          }
+        }
+        content.blocks.push(...parseHTML(fixContent, content))
+        groupPosts.push({
+          oldId,
+          groupId,
+          content: JSON.stringify(content), // Convert content to a JSON string
+          createdAt,
+          createdBy
+        });
+
+      }
+    });
+    // Add an IDENTITI field to each object in the postsToUpload array
+    groupPosts.forEach((post, index) => {
+      post.IDENTITI = index + 1;
+    });
+    console.log("groupPosts", groupPosts);
+    function parseHTML(htmlString, content) {
+      const parser = new DOMParser();
+      const htmlDoc = parser.parseFromString(htmlString, 'text/html');
+      const elements = htmlDoc.body.querySelectorAll('*');
+      let dataLength, dataOffset;
+      let result = [];
+      let index = 0, countImagesGallery = 0;
+      Array.from(elements).forEach(element => {
+        let text = '';
+        let sibling = element.previousSibling;
+        inlineStyleRanges = [], entityRanges = [];
+        let height = 400;
+        let width = 600;
+        while (sibling) {
+          if (sibling.nodeType === Node.TEXT_NODE) {
+            text = sibling.textContent.trim() + text;
+            break;
+          }
+          sibling = sibling.previousSibling;
+        }
+
+        switch (element.tagName.toLowerCase()) {
+          case "br":
+            type = "unstyled";
+            break;
+          case "p":
+            if (element && element.children.length === 1 && element.children[0].tagName.toLowerCase() === 'a') {
+              return;
+            }
+            const isGalleryParagraph = element.classList.contains('article_paragraph_gallery');
+            if (isGalleryParagraph) {
+              type = "atomic";
+              text = "";
+              entityRanges = [{ "offset": 0, "length": 1, "key": index++ }]
+              const imgElements = element.querySelectorAll('img');
+              countImagesGallery = imgElements.length;
+              const galleryImageUrls = Array.from(imgElements).map(imgElement => {
+                sourceSrc = imgElement.getAttribute('src');
+                foundObject = forumPostImages.find(obj => obj.Originalurl === sourceSrc);
+                if (sourceSrc) {
+                  urlParts = sourceSrc.split('/');
+                  original_file_name = urlParts[urlParts.length - 1];
+                }
+                if (foundObject) {
+                  file_name = foundObject.Externalurl;
+                  height = foundObject.Height;
+                  width = foundObject.Width;
+                } else {
+                  cnt++
+                  arr.push(sourceSrc)
+                  console.log('Object not found.');
+                  file_name = "25e1f6_d0120fd1ade5463e8e239f80f855bcbf~mv2.jpg"
+                }
+                url = file_name
+                return url;
+              });
+              const galleryItems = galleryImageUrls.map(url => ({
+                "metadata": { "type": "image", "height": height, "width": width },
+                "url": url
+              }));
+
+              addItemToEntityMap(content, "wix-draft-plugin-gallery", "IMMUTABLE", {
+                "config": { "alignment": "center", "size": "content", "textWrap": "wrap" },
+                "items": galleryItems,
+                "styles": {
+                  "galleryLayout": 2,
+                  "numberOfImagesPerRow": 3,
+                  "cubeType": "fill",
+                  "cubeRatio": 1,
+                  "isVertical": true,
+                  "oneRow": false
+                }
+              });
+            }
+            else {
+              type = "unstyled";
+              text = element.textContent.trim();
+              dataOffset = element.getAttribute('data-strong-index');
+              dataLength = element.getAttribute('data-strong-length');
+              //miriam addition
+              if (dataOffset !== null && dataLength !== null) {
+                dataOffset = JSON.parse(dataOffset); // המרה למערך
+                dataLength = JSON.parse(dataLength); // המרה למערך
+              }
+              if (Array.isArray(dataOffset) && Array.isArray(dataLength) && dataLength[0] !== 0) {//miriam
+                for (let index = 0; index < dataOffset.length; index++) {
+                  inlineStyleRanges.push({
+                    "offset": dataOffset[index],
+                    "length": dataLength[index],
+                    "style": "BOLD"
+                  });
+
+                }
+                console.log("inlineStyleRanges", inlineStyleRanges);
+              }
+            }
+            break;
+          case "img":
+            if (countImagesGallery === 0) {
+              sourceSrc = element.getAttribute('src');
+              foundObject = forumPostImages.find(obj => obj.Originalurl === sourceSrc);
+              if (sourceSrc) {
+                urlParts = sourceSrc.split('/');
+                console.log("urlParts", urlParts);
+                original_file_name = urlParts[urlParts.length - 1];
+              }
+              if (foundObject) {
+                file_name = foundObject.Externalurl;
+                height = foundObject.Height;
+                width = foundObject.Width;
+              } else {
+                console.log('Object not found.');
+                arr.push(sourceSrc)
+                cnt++
+                file_name = "25e1f6_d0120fd1ade5463e8e239f80f855bcbf~mv2.jpg"
+              }
+              addItemToEntityMap(content, "wix-draft-plugin-image", "IMMUTABLE",
+                {
+                  "config": { "alignment": "center", "size": "small", "showTitle": true, "showDescription": true, "textWrap": "wrap" },
+                  "src": { "id": file_name, "height": height, "width": width, "original_file_name": original_file_name, "file_name": file_name }
+                });
+              type = "atomic";
+              text = "";
+              entityRanges = [{ "offset": 0, "length": 1, "key": index++ }]
+            }
+            else {
+              countImagesGallery--;
+            }
+            break;
+          case "a":
+            const imgElement = element.querySelector('img');
+            if (!imgElement) {
+              type = "unstyled";
+              console.log("element.textContent", element.textContent);
+              text = element.textContent.trim();
+              let url = element.getAttribute('href');
+              if (url) {
+                if (!url.includes("https")) {
+                  url = "https://www.4x4.co.il".concat(url);
+                }
+              }
+              inlineStyleRanges = [{ "offset": 0, "length": element.textContent.trim().length, "style": "UNDERLINE" }];
+              addItemToEntityMap(content, "LINK", "MUTABLE", { "url": url || '', "target": "_blank", "rel": "" })
+              entityRanges = [{ "offset": 0, "length": element.textContent.trim().length, "key": index++ }];
+              dataOffset = element.getAttribute('data-strong-index');
+              dataLength = element.getAttribute('data-strong-length');
+              if (dataOffset !== null && dataLength !== null) {
+                dataOffset = JSON.parse(dataOffset); // המרה למערך
+                dataLength = JSON.parse(dataLength); // המרה למערך
+              }
+              if (Array.isArray(dataOffset) && Array.isArray(dataLength) && dataLength[0] !== 0) {//miriam
+                for (let index = 0; index < dataOffset.length; index++) {
+                  inlineStyleRanges.push({
+                    "offset": dataOffset[index],
+                    "length": dataLength[index],
+                    "style": "BOLD"
+                  });
+                }
+              }
+            }
+            break;
+          case "strong":
+            text = element.textContent.trim();
+            type = "unstyled";
+            inlineStyleRanges = [{ "offset": 0, "length": element.textContent.trim().length, "style": "BOLD" }]
+            break;
+                   case "em":
+            text = element.textContent.trim();
+            type = "unstyled";
+            inlineStyleRanges.push({
+              "offset": 0,
+              "length": element.textContent.trim().length,
+              "style": "ITALIC"
+            });
+            break;
+          case "h1":
+          case "h2":
+          case "h3":
+          case "h4":
+          case "h5":
+          case "h6":
+            const headerLevel = element.tagName.toLowerCase();
+            const headerMap = {
+              h1: "header-one",
+              h2: "header-two",
+              h3: "header-three",
+              h4: "header-four",
+              h5: "header-five",
+              h6: "header-six"
+            };
+            type = headerMap[headerLevel];
+            text = element.textContent.trim();
+            inlineStyleRanges = []; 
+            break;
+          default:
+            break;
+        }
+
+        result.push({
+          type: type,
+          text: text,
+          key: Math.random().toString(36).substring(7),
+          depth: 0,
+          inlineStyleRanges: inlineStyleRanges,
+          entityRanges: entityRanges,
+          data: { "textAlignment": "right" }
+        });
+      });
+      return result;
+    }
+
+    function addItemToEntityMap(content, type, mutability, data) {
+      const nextIndex = Object.keys(content.entityMap).length;
+      content.entityMap[nextIndex.toString()] = {
+        type,
+        mutability,
+        data
+      };
+    }
+
+
+    function removeStyleFromTags(inputString) {
+      // Regular expression to match BR tags with style attribute in different formats
+      const regex = /<br((\s+style="([^"]*)")|(\s+style=([^>\s]+))|(.*?))(\s*\/)?>/gi;
+      // Replace BR tags with style attribute with just tags
+      const outputString = inputString.replace(regex, '<br$7>');
+      return outputString;
+    }
+    function cleanDivAndSpanTags(text) {
+      // Remove <div> tags
+      text = text.replace(/<div\b[^>]*>/gi, '');
+
+      // Remove </div> tags
+      text = text.replace(/<\/div>/gi, '');
+
+      // Remove <font> tags
+      text = text.replace(/<font\b[^>]*>/gi, '');
+
+      // Remove </font> tags
+      text = text.replace(/<\/font>/gi, '');
+
+      // Remove <span> tags
+      text = text.replace(/<span\b[^>]*>/gi, '');
+
+      // Remove </span> tags
+      text = text.replace(/<\/span>/gi, '');
+
+      // console.log("text before returning", text);
+
+      return text;
+    }
+    function tritStrongTags(inputString) {
+      var tempDiv = document.createElement('div');
+      tempDiv.innerHTML = inputString;
+      var pTags = tempDiv.getElementsByTagName('p');
+      var aTags = tempDiv.getElementsByTagName('a');
+      var mTags=tempDiv.getElementsByTagName('em');
+      for (var i = 0; i < aTags.length; i++) {
+        var aTag = aTags[i];
+        var strongTags = aTag.getElementsByTagName('strong');
+        if (strongTags.length > 0) {
+          var content = aTag.innerHTML;
+          var contentLength = aTag.textContent.length;
+          var startIndexArr = [];
+          var contentLengthArr = [];
+          for (var j = 0; j < strongTags.length; j++) {
+            var strongTag = strongTags[j];
+            content = content.replace(strongTag.outerHTML, strongTag.innerHTML);
+            var startIndex = content.indexOf(strongTag.textContent);
+            startIndexArr.push(startIndex);
+            contentLengthArr.push(strongTag.textContent.length);
+          }
+          aTag.innerHTML = content;
+          aTag.setAttribute('data-strong-length', JSON.stringify(contentLengthArr));
+          aTag.setAttribute('data-strong-index', JSON.stringify(startIndexArr));
+        }
+      }
+      for (var i = 0; i < pTags.length; i++) {
+        var pTag = pTags[i];
+        var strongTags = pTag.getElementsByTagName('strong');
+        if (strongTags.length > 0) {
+          var content = pTag.innerHTML;
+          var contentLength = pTag.textContent.length;
+          var startIndexArr = [];
+          var contentLengthArr = [];
+
+          for (var j = 0; j < strongTags.length; j++) {
+            var strongTag = strongTags[j];
+            content = content.replace(strongTag.outerHTML, strongTag.innerHTML);
+            var startIndex = content.indexOf(strongTag.textContent);
+            startIndexArr.push(startIndex);
+            contentLengthArr.push(strongTag.textContent.length);
+          }
+          pTag.innerHTML = content;
+          pTag.setAttribute('data-strong-length', JSON.stringify(contentLengthArr));
+          pTag.setAttribute('data-strong-index', JSON.stringify(startIndexArr));
+        }
+      }
+      return tempDiv.innerHTML;
+    }
+
+    function fixHTMLContent(text) {
+      if (typeof text !== 'string') {
+        console.log("Input must be a string",text);
+        return text;
+      }
+      // Clean <div> and <span> tags
+      text = cleanDivAndSpanTags(text);
+      text = removeStyleFromTags(text)
+      // Wrap <br> tags with \n
+      text = text.replace(/<br\s*\/?>/gi, '\n');
+      text = wrapTextWithPtag(text);
+      // Check if the text contains a <strong> tag
+      var containsStrongTag = text.includes('<strong>');
+      if (containsStrongTag) {
+        // Remove unnecessary <p> tags inside <a> tags
+        text = text.replace(/<a\b[^>]*>((.|\n)*?)<\/a>/gi, function (match, group) {
+          return match.replace(/<p\b[^>]*>([\s\S]*?)<\/p>/gi, '$1');
+        });
+        // Remove unnecessary <p> tags inside <strong> tags
+        text = text.replace(/<strong\b[^>]*>((.|\n)*?)<\/strong>/gi, function (match, group) {
+          return match.replace(/<p\b[^>]*>([\s\S]*?)<\/p>/gi, '$1');
+        });
+        //miriam addition
+        text = text.replace(/<([a-zA-Z][^>]*)>\s*<\/\1>/gi, '');
+        //till here
+        text = tritStrongTags(text);
+      }
+      return text;
+    }
+
+    function wrapTextWithPtag(inputString) {
+      console.log("Input String:", inputString);
+      // Parse the input string into a DOM structure
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(inputString, 'text/html');
+      // Iterate over child nodes of the body element
+      const body = doc.body;
+      const newContent = [];
+      body.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          // For text nodes, wrap them in <p> if they contain meaningful content
+          const trimmedText = node.textContent.trim();
+          if (trimmedText) {
+            const p = doc.createElement('p');
+            p.textContent = trimmedText;
+            newContent.push(p.outerHTML);
+          }
+        } else {
+          // For element nodes, keep them as they are
+          newContent.push(node.outerHTML);
+        }
+      });
+
+      // Join the processed content back into a single string
+      const result = newContent.join('');
+      return result;
+    }
+    function processNestedTags(element) {
+      let attributes = element.getAttributeNames();
+      let inlineStyleRanges = [];
+      if (attributes[3]) {
+        let dataOffset = element.getAttribute(attributes[2]);
+        let dataLength = element.getAttribute(attributes[3]);
+      }
+      return inlineStyleRanges;
+    }
+
+  </script>
+</body>
+
+</html>

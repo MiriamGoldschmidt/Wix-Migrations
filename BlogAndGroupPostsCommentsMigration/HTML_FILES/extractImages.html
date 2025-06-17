@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <script src="../JS FILES/allComments.js"></script><!--The blog and group posts-->
+  <script>
+    function extractImageURLs() {
+      const imageURLs = [];
+      // חיפוש כל תמונות ה-URLs בתוך הפוסטים
+      for (let post of AllGroupComments) {
+        if (post.archive === 0) {
+          // מוצא את כל התגיות עם src (גם אם יש תווים לא תקניים כמו \\)
+          const imgTags = post.content?.match(/<img[^>]+src=["']([^"']+)["']/g);
+          if (imgTags) {
+            for (let tag of imgTags) {
+              // חילוץ ה-src מהתגית
+              const srcMatch = tag.match(/src=["']([^"']+)["']/);
+              if (srcMatch && srcMatch[1]) {
+                imageURLs.push({ "url": srcMatch[1] });
+              }
+            }
+          }
+        }
+      }
+      return imageURLs;
+    }
+
+    const images = extractImageURLs();
+    console.log("New images to process:", images);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1069 @@
+{
+    "id": 4021,
+    "interest_id": 1,
+    "subject_id": 38,
+    "category_id": 69,
+    "sub_category_id": "0",
+    "date": "2021-03-30 00:00:00",
+    "rate": 1,
+    "writer_id": "f90e8a3f-9304-4ab0-b22c-6fd73b24eb90",
+    "photographer_id": null,
+    "title": "ירידה תלולה בשטח טרשי, קרקע קשה וקרקע חולית",
+    "subtitle": "לרדת ירידה, אפילו הקשה ביותר - זו לא הבעיה - בסופו של דבר הרכב יגיע מטה.\nהאתגר הוא לרדת ללא נזקים לרכב!\nהנהג המקצועי הוא זה שיסיים את הירידה כשרכבו שלם ולנוסעים שלום!\n(וכן, אפשר לרדת את מעלה ורדית מבלי לגעת או לשפשף אפילו במעט את המרכב/השלדה של הרכב)\nטיפ שטח משנת 2005, עודכן במרץ 2021",
+    "image": "https://static.wixstatic.com/media/32c57e_bc161ae40de04e418e96629ac5a10081~mv2.jpg",
+    "modify": "2021-03-30 09:42:26",
+    "isMemberOnly": 0,
+    "isMainPage": 1,
+    "publish": 1,
+    "journey_id": 0,
+    "views_count": 36772,
+    "archive": 0,
+    "post_id": 69071,
+    "send_notification": 1,
+    "guides_only": null,
+    "interests": [
+        "65c272f009785ce4943c840a"
+    ],
+    "categories": [
+        "a99bb675-a12a-4f31-92c5-f38e3cbcedcf"
+    ],
+    "subjects": [
+        "7f1abc2e-b83d-484e-98e1-79e4ff4ad343"
+    ],
+    "wixTags": [
+        "10cbc4e1-a1dd-4fff-b60a-fb77544b2cde",
+        "ff91273a-a21c-4951-9334-64634f03ed1d",
+        "fcea1d64-b4fc-451f-8021-d96a8fe17ed1"
+    ],
+    "richContent": {
+        "nodes": [
+            {
+                "type": "HEADING",
+                "id": "dcmdkzq3l",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "j94ehbpst",
+                        "nodes": [],
+                        "textData": {
+                            "text": "לרדת ירידה, אפילו הקשה ביותר - זו לא הבעיה - בסופו של דבר הרכב יגיע מטה.\nהאתגר הוא לרדת ללא נזקים לרכב!\nהנהג המקצועי הוא זה שיסיים את הירידה כשרכבו שלם ולנוסעים שלום!\n(וכן, אפשר לרדת את מעלה ורדית מבלי לגעת או לשפשף אפילו במעט את המרכב/השלדה של הרכב)\nטיפ שטח משנת 2005, עודכן במרץ 2021",
+                            "decorations": []
+                        }
+                    }
+                ],
+                "headingData": {
+                    "level": 4,
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    }
+                }
+            },
+            {
+                "type": "HEADING",
+                "id": "p0ikxqaib",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "52xr7a4q6",
+                        "nodes": [],
+                        "textData": {
+                            "text": "שלב ראשון - תכנון ",
+                            "decorations": []
+                        }
+                    }
+                ],
+                "headingData": {
+                    "level": 3,
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    }
+                }
+            },
+            {
+                "type": "ORDERED_LIST",
+                "id": "s9wqs2mxy",
+                "nodes": [
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "a0vj1a4ky",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "zo4exg5j2",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "בחן את הירידה בעין או בסריקה רגלית - כדאי לרדת עד למטה. כפל קרקע או מדרגה יכולים ל''הסתתר'' דווקא בתחתית הירידה. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "umcrf4wi4",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "axx1heny9",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "בחן את סיום הירידה ואת המשך המסלול - זכור כי העלייה חזרה תהיה הרבה יותר קשה! לכן, בטרם הירידה כדאי לבדוק האם יש המשך לשביל או לרדת בירידות שניתן לעלות בהן בחזרה. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "p1kch1k1o",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "t43t31090",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "אתר בורות, מדרגות ומכשולים לאורכה של הירידה. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "k6oce526k",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "j55pip5s0",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "בדוק מהי האפשרות הטובה ביותר למסלול הירידה - ירידה בקו הניצב לירידה (גלגלים בכיוון הירידה) - אידיאלי אך לא תמיד אפשרי. תמרון בין מכשולים לאורך הירידה יכול להביא את הרכב למצב של שיפוע צד ולהוות סכנה! ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "vp6q32p5q",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "lu0abhqs3",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "הגדר את מסלול הירידה ואם יש צורך - סמן נקודות בולטות בשטח. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "fdi4hn53c",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "yk68n9uj6",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "תכנן היטב את קצב הירידה: ",
+                                    "decorations": []
+                                }
+                            },
+                            {
+                                "type": "TEXT",
+                                "id": "dt67bwsl1",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "ירידה ''על הברקסים'' ",
+                                    "decorations": [
+                                        {
+                                            "type": "BOLD",
+                                            "fontWeightValue": 700
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "TEXT",
+                                "id": "ny2ifqo5k",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "- במעבר מכשולים, בירידה עם מדרגות, כשיש צורך לפנות ולתמרן לצדדים, כשלא ניתן לבלום בסוף הירידה. ",
+                                    "decorations": []
+                                }
+                            },
+                            {
+                                "type": "TEXT",
+                                "id": "1nwhcy5hq",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "ירידה ''על המנוע'' ",
+                                    "decorations": [
+                                        {
+                                            "type": "BOLD",
+                                            "fontWeightValue": 700
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "TEXT",
+                                "id": "7e7lej2t4",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "(באמצעות בלימת מנוע) - כאשר הירידה ישרה, כשאין עיקולים חדים, בירידה ללא מדרגות, כשקיימת אפשרות להאט לקראת סוף הירידה. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "IMAGE",
+                "id": "rrmxbi86z",
+                "nodes": [],
+                "imageData": {
+                    "containerData": {
+                        "width": {
+                            "size": "CONTENT"
+                        },
+                        "alignment": "CENTER",
+                        "textWrap": true,
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    },
+                    "image": {
+                        "src": {
+                            "id": "32c57e_43fbcee14e144be7be4b5e01a7da2156~mv2.jpeg"
+                        },
+                        "alt": "image alt",
+                        "width": "1200",
+                        "height": "540",
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    }
+                }
+            },
+            {
+                "type": "HEADING",
+                "id": "ju246tpkp",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "070jb71qj",
+                        "nodes": [],
+                        "textData": {
+                            "text": "שלב שני - הכנות ",
+                            "decorations": [
+                                {
+                                    "fontWeightValue": 700,
+                                    "type": "BOLD"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "headingData": {
+                    "level": 3,
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    }
+                }
+            },
+            {
+                "type": "ORDERED_LIST",
+                "id": "pzvetz4p3",
+                "nodes": [
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "l217o97cu",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "9hri1w9gc",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "פנה מכשולים לאורך ציר הירידה. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "t86j822d4",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "4pviuiv83",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "מלא בורות ומדרגות באבנים ו/או בשקי חול - גם בירידה יש חשיבות למילוי בורות. - הקפד על שימוש בכפפות. - אין לזרוק או לדרדר אבנים. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "d57cmw6vz",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "8k7xdu19x",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "אין להוריד אוויר בצמיגים. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "9334xs4hl",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "ptyb3ixr3",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "שלב להילוך כוח LOW ונעל נעילה מרכזית או שלב ל - 4X4 . ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "9dv7t8544",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "0h7ecbm71",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "שלב להילוך נמוך - הילוך ראשון בתיבת הילוכים ידנית וגם בתיבה אוטומטית. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "vf822dft9",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "isz3f8s01",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "התקדם מעט על מנת לבדוק כי תיבת ההילוכים ותיבת ההעברה משולבות היטב. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "IMAGE",
+                "id": "0baxl6ds3",
+                "nodes": [],
+                "imageData": {
+                    "containerData": {
+                        "width": {
+                            "size": "CONTENT"
+                        },
+                        "alignment": "CENTER",
+                        "textWrap": true,
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    },
+                    "image": {
+                        "src": {
+                            "id": "32c57e_df9f4ed0cb744540afe821c04f9e6304~mv2.jpg"
+                        },
+                        "alt": "image alt",
+                        "width": "800",
+                        "height": "600",
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    }
+                }
+            },
+            {
+                "type": "HEADING",
+                "id": "0s9o33y81",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "fmgeft2rf",
+                        "nodes": [],
+                        "textData": {
+                            "text": "ועוד מספר הערות חשובות לפני תחילת הירידה ",
+                            "decorations": [
+                                {
+                                    "fontWeightValue": 700,
+                                    "type": "BOLD"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "headingData": {
+                    "level": 3,
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    }
+                }
+            },
+            {
+                "type": "ORDERED_LIST",
+                "id": "licl2tdw6",
+                "nodes": [
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "czl0m4m3d",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "84426qr3x",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "השתמש במכוון קרקעי אם צריך - חשוב כי המכוון לא יעמוד לפני הרכב אלא לצידו ובמקום גבוה (הרכב יכול להידרדר לכיוונו ללא שליטה). ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "zdt2on740",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "krhbof01o",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "זכור כי בזמן הירידה אינך רואה את מה שקורה בסמוך לגלגלים. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "l8xtqebfs",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "szafrj9n3",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "רצוי להשאיר חלונות פתוחים כדי לשמוע את הרכב ואת המכוון ולהתרכז בירידה. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "79wtxe32w",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "34yaw2bqw",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "הרחק את הצופים מצידי הרכב ומלפניו. הרכב יכול להידרדר ללא שליטה לכיוונם. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "q9j2fjs5j",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "tz9z3s5v2",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "הקפד להיות חגור בחגורת בטיחות לרבות שאר הנוסעים ברכב. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "IMAGE",
+                "id": "f73mgaak1",
+                "nodes": [],
+                "imageData": {
+                    "containerData": {
+                        "width": {
+                            "size": "CONTENT"
+                        },
+                        "alignment": "CENTER",
+                        "textWrap": true,
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    },
+                    "image": {
+                        "src": {
+                            "id": "32c57e_b04955566067460a8e4b41e4e18be373~mv2.jpg"
+                        },
+                        "alt": "image alt",
+                        "width": "1200",
+                        "height": "800",
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    }
+                }
+            },
+            {
+                "type": "HEADING",
+                "id": "ta34j5zg5",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "s3dw9nvs8",
+                        "nodes": [],
+                        "textData": {
+                            "text": "שלב שלישי - הירידה ",
+                            "decorations": [
+                                {
+                                    "fontWeightValue": 700,
+                                    "type": "BOLD"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "headingData": {
+                    "level": 3,
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    }
+                }
+            },
+            {
+                "type": "ORDERED_LIST",
+                "id": "b5pa1r7kf",
+                "nodes": [
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "35w6ltmv9",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "dv031w4km",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "התחל את הירידה במהירות איטית ועם רגל על הברקס. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "eqwugzeeo",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "rucbiil1y",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "התקדם באיטיות תוך כדי לחיצה על הברקסים ושחרורם לפרקים קצרים. עשה זאת כך שהרכב יתגלגל קדימה ברצף אך לאט וללא טלטולים מיותרים. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "z1rwzbciq",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "63wy5s9im",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "סבלנות - רד את המכשול לאט ועם מינימום נדנודים של הרכב (כך אתה שומר על מהלך מתלה מקסימאלי ולא משתפשף בקרקע). ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "qic09gug2",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "vr4w1o9bs",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "אם הירידה מאפשרת זאת (ירידה ישרה, ללא מדרגות וללא פניות חדות) עזוב את הברקס ואפשר לרכב לרדת את הירידה כשרק המנוע בולם את הרכב. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "dmc0zegbj",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "qmyqzs8wc",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "זכור כי כאשר הרכב צובר מהירות - לחיצה על הברקס יכולה להיות מסוכנות ולהביא את הרכב למצב של שיפוע צד! סכנה!! (הגלגלים האחוריים יינעלו - שכן השתנתה חלוקת המשקל לטובת קדמת הרכב - וגלגל נעול רוצה להוביל!). ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "uyd03epk3",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "f4am0phns",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "אם אתה יורד ''על המנוע'' (באמצעות בלימת המנוע) שמור על הגה ישר. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "i5gp8991x",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "f05gnl7el",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "במקרה ואתה מרגיש כי ''התחת בורח'' (החלק האחורי של הרכב מנסה להוביל) לחץ מעט על הגז והרכב יתיישר קדימה. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "IMAGE",
+                "id": "sk1ajmv5o",
+                "nodes": [],
+                "imageData": {
+                    "containerData": {
+                        "width": {
+                            "size": "CONTENT"
+                        },
+                        "alignment": "CENTER",
+                        "textWrap": true,
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    },
+                    "image": {
+                        "src": {
+                            "id": "32c57e_44bbdb9ce01546efa67f1b1bbb538696~mv2.jpg"
+                        },
+                        "alt": "image alt",
+                        "width": "1200",
+                        "height": "800",
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    }
+                }
+            },
+            {
+                "type": "HEADING",
+                "id": "jsdlgj13h",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "vlk1j291f",
+                        "nodes": [],
+                        "textData": {
+                            "text": "שלב רביעי - ממשיכים הלאה ",
+                            "decorations": [
+                                {
+                                    "fontWeightValue": 700,
+                                    "type": "BOLD"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "headingData": {
+                    "level": 3,
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    }
+                }
+            },
+            {
+                "type": "ORDERED_LIST",
+                "id": "68iffbpul",
+                "nodes": [
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "1uvob7x6p",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "k7tt0u3xf",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "בדוק תחת הרכב כי אין שברים ו/או נזילות. ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "5xpeb7d42",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "482h12vbd",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "אסוף את מה שהשארת בירידה (שקי חול, את חפירה וכו') ",
+                                    "decorations": []
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "LIST_ITEM",
+                        "id": "z752dkf2i",
+                        "nodes": [
+                            {
+                                "type": "TEXT",
+                                "id": "74ai737aw",
+                                "nodes": [],
+                                "textData": {
+                                    "text": "סע לשלום, עד לירידה הבאה. ",
+                                    "decorations": []
+                                }
+                            },
+                            {
+                                "type": "HEADING",
+                                "id": "u0aipt32v",
+                                "nodes": [
+                                    {
+                                        "type": "TEXT",
+                                        "id": "n802nrmik",
+                                        "nodes": [],
+                                        "textData": {
+                                            "text": "מורד עם מהמורה ומדרגה ",
+                                            "decorations": []
+                                        }
+                                    }
+                                ],
+                                "headingData": {
+                                    "level": 3,
+                                    "textStyle": {
+                                        "textAlignment": "RIGHT"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "HTML",
+                                "id": "0plhi9enp",
+                                "nodes": [],
+                                "htmlData": {
+                                    "containerData": {
+                                        "width": {
+                                            "custom": "600"
+                                        },
+                                        "alignment": "CENTER",
+                                        "height": {
+                                            "custom": "400"
+                                        },
+                                        "textWrap": true
+                                    },
+                                    "url": "https://www.youtube.com/embed/nuFdAPUZ2Fo",
+                                    "source": "HTML"
+                                }
+                            },
+                            {
+                                "type": "PARAGRAPH",
+                                "id": "tmlrkq49f",
+                                "nodes": [
+                                    {
+                                        "type": "TEXT",
+                                        "id": "gl9kkf911",
+                                        "nodes": [],
+                                        "textData": {
+                                            "text": "מתוך ",
+                                            "decorations": []
+                                        }
+                                    },
+                                    {
+                                        "type": "TEXT",
+                                        "id": "1smktbanh",
+                                        "nodes": [],
+                                        "textData": {
+                                            "text": "סיכום הדרכת מעלות קשים ביער בן שמן 13/11/20 ",
+                                            "decorations": [
+                                                {
+                                                    "type": "LINK",
+                                                    "linkData": {
+                                                        "link": {
+                                                            "url": "https://4x4.co.il/article/13565",
+                                                            "target": "BLANK",
+                                                            "rel": {
+                                                                "noreferrer": true
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "type": "TEXT",
+                                        "id": "h16ondayn",
+                                        "nodes": [],
+                                        "textData": {
+                                            "text": "\n",
+                                            "decorations": []
+                                        }
+                                    },
+                                    {
+                                        "type": "TEXT",
+                                        "id": "7vwe8tx0s",
+                                        "nodes": [],
+                                        "textData": {
+                                            "text": "הדריך: אמיר נחומי ",
+                                            "decorations": []
+                                        }
+                                    }
+                                ],
+                                "paragraphData": {
+                                    "textStyle": {
+                                        "textAlignment": "RIGHT"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "IMAGE",
+                "id": "vjwwxrmp6",
+                "nodes": [],
+                "imageData": {
+                    "containerData": {
+                        "width": {
+                            "size": "CONTENT"
+                        },
+                        "alignment": "CENTER",
+                        "textWrap": true,
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    },
+                    "image": {
+                        "src": {
+                            "id": "32c57e_81dd4e8d4bbe4d23b8c4ce03b1bef763~mv2.jpeg"
+                        },
+                        "alt": "image alt",
+                        "width": "1200",
+                        "height": "540",
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    }
+                }
+            },
+            {
+                "type": "HEADING",
+                "id": "fbmlb4yqh",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "7qdrgql0m",
+                        "nodes": [],
+                        "textData": {
+                            "text": "3 דקות של כפיר כשריאן, בועז קורפל ועופר אוגש על ירידת מדרגה בשטח: ",
+                            "decorations": []
+                        }
+                    }
+                ],
+                "headingData": {
+                    "level": 3,
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    }
+                }
+            },
+            {
+                "type": "HTML",
+                "id": "y3jmk8cmf",
+                "nodes": [],
+                "htmlData": {
+                    "containerData": {
+                        "width": {
+                            "custom": "600"
+                        },
+                        "alignment": "CENTER",
+                        "height": {
+                            "custom": "400"
+                        },
+                        "textWrap": true
+                    },
+                    "url": "https://www.youtube.com/embed/8vrU_9tg-Ho",
+                    "source": "HTML"
+                }
+            },
+            {
+                "type": "HEADING",
+                "id": "uw5zziz5l",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "n3a5tidtu",
+                        "nodes": [],
+                        "textData": {
+                            "text": "חשוב לדעת ",
+                            "decorations": [
+                                {
+                                    "fontWeightValue": 700,
+                                    "type": "BOLD"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "headingData": {
+                    "level": 3,
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    }
+                }
+            },
+            {
+                "type": "PARAGRAPH",
+                "id": "2yebrzno1",
+                "nodes": [
+                    {
+                        "type": "TEXT",
+                        "id": "7pilrddwi",
+                        "nodes": [],
+                        "textData": {
+                            "text": "- ",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "wxjgskxqz",
+                        "nodes": [],
+                        "textData": {
+                            "text": "הירידה בשטח מחייבת ידע, ניסיון ומקצועיות! ",
+                            "decorations": [
+                                {
+                                    "type": "BOLD",
+                                    "fontWeightValue": 700
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "7599aiw8g",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "4s88cii1e",
+                        "nodes": [],
+                        "textData": {
+                            "text": "- אין להיכנס לשטח ללא רכב נוסף! ",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "elbrktb98",
+                        "nodes": [],
+                        "textData": {
+                            "text": "\n",
+                            "decorations": []
+                        }
+                    },
+                    {
+                        "type": "TEXT",
+                        "id": "41pg94nxd",
+                        "nodes": [],
+                        "textData": {
+                            "text": "הערה: השימוש בלשון זכר נעשה רק מטעמי נוחות - לנשים יש סבלנות רבה יותר המאפשרת לרדת ירידות באיטיות. ",
+                            "decorations": []
+                        }
+                    }
+                ],
+                "paragraphData": {
+                    "textStyle": {
+                        "textAlignment": "RIGHT"
+                    }
+                }
+            },
+            {
+                "type": "IMAGE",
+                "id": "j2s9l8aen",
+                "nodes": [],
+                "imageData": {
+                    "containerData": {
+                        "width": {
+                            "size": "CONTENT"
+                        },
+                        "alignment": "CENTER",
+                        "textWrap": true,
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    },
+                    "image": {
+                        "src": {
+                            "id": "32c57e_9060bd142eb84ea5a449f8f0a6e474ab~mv2.jpg"
+                        },
+                        "alt": "image alt",
+                        "width": "800",
+                        "height": "600",
+                        "fitMode": "fit",
+                        "displayMode": "fit"
+                    }
+                }
+            }
+        ],
+        "metadata": {
+            "version": 1,
+            "createdTimestamp": "2023-12-07T10:02:02.347Z",
+            "updatedTimestamp": "2023-12-07T10:02:02.347Z",
+            "id": "4904df70-ae35-48a7-bd0e-06f254dc733c"
+        },
+        "documentStyle": {}
+    },
+    "subSubSubCategories": []
+}

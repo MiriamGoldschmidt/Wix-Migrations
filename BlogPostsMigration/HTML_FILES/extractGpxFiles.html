@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+
+
+<!--This script extracts all the gpx files that are contained in the posts content, after receiving the list of files the list should be uploaded to the wix media
+the code that does it appears at the "uploadImages.jsw" file and the function is called "uploadBlogPostsGpxFiles", after all the files are imported to the wix media, download the collection that contains them, (the colleciton name should appear on the "wixMediaManager_onFileUploaded" event in the "events.js" file) 
+and add the new files to the file renamed "gpxFilesSuccessfullyUploaded.js"-->
+
+<body>
+    <script src="../JS FILES/postsSince17Until24Final.js"></script><!-- The posts to extract the gpx files from -This is dynamic-->
+    <script>
+        function extractGPXLinks() {
+            const gpxLinks = [];
+            // חיפוש כל קישורי ה-GPX בתוך הפוסטים
+            for (let post of allOldPosts) {
+                if (post.archive === 0) {
+                    const linkTags = post.content.match(/<a[^>]+href=["']([^"']+\.gpx)["']/g);
+                    if (linkTags) {
+                        for (let tag of linkTags) {
+                            // חילוץ ה-href מהתגית
+                            const hrefMatch = tag.match(/href=["']([^"']+\.gpx)["']/);
+                            if (hrefMatch && hrefMatch[1]) {
+                                console.log("hrefMatch[1]", hrefMatch[1]);
+                                    gpxLinks.push({ "url": hrefMatch[1] });
+                            }
+                        }
+                    }
+                }
+            }
+            return gpxLinks;
+        }
+        const gpxFiles = extractGPXLinks();
+        console.log("gpxFiles:", gpxFiles);
+    </script>
+</body>
+
+</html>
